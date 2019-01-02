@@ -2,6 +2,9 @@ package com.cat.sutils;
 
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
+import android.support.v4.util.Consumer;
+
+import java.util.Objects;
 
 public class ColorTransition {
 
@@ -9,7 +12,6 @@ public class ColorTransition {
     private long duration;
     private int startColor;
     private int endColor;
-    private OnColorUpdateListener onColorUpdateListener;
     private ValueAnimator valueAnimator;
 
 
@@ -17,13 +19,13 @@ public class ColorTransition {
         duration=builder.duration;
         startColor=builder.startColor;
         endColor=builder.endColor;
-        onColorUpdateListener=builder.onColorUpdateListener;
 
     }
 
 
 
-    public void translate(){
+    public ColorTransition translate(Consumer<Integer> consumer){
+        Objects.requireNonNull(consumer);
         destroy();
         if(duration<=0){
             duration=1000;
@@ -36,12 +38,11 @@ public class ColorTransition {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 int currentColor= (int) animation.getAnimatedValue();
-                if(onColorUpdateListener!=null){
-                    onColorUpdateListener.onColorUpdate(currentColor);
-                }
+                consumer.accept(currentColor);
             }
         });
         valueAnimator.start();
+        return this;
     }
 
     private ValueAnimator createColorTransitionAnimator(int startColor,int endColor,long duration ){
@@ -69,7 +70,6 @@ public class ColorTransition {
         private long duration;
         private int startColor;
         private int endColor;
-        private OnColorUpdateListener onColorUpdateListener;
 
         public Builder duration(long duration) {
             this.duration = duration;
@@ -86,10 +86,6 @@ public class ColorTransition {
             return this;
         }
 
-        public Builder onColorUpdateListener(OnColorUpdateListener onColorUpdateListener) {
-            this.onColorUpdateListener = onColorUpdateListener;
-            return this;
-        }
 
         public ColorTransition build(){
             return new ColorTransition(this);
@@ -98,9 +94,6 @@ public class ColorTransition {
     }
 
 
-    public interface OnColorUpdateListener{
-        void onColorUpdate(int currentColor);
-    }
 
 
 
