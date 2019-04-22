@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="WheelView">
+        <attr name="visibleItemCount" format="integer"></attr>
+        <attr name="startColor" format="color"></attr>
+        <attr name="endColor" format="color"></attr>
+        <attr name="scaleValue" format="float"></attr>
+        <attr name="textSize" format="dimension"></attr>
+        <attr name="centerLineColor" format="color"></attr>
+        <attr name="centerLineWidth" format="dimension"></attr>
+
+    </declare-styleable>
+</resources>
