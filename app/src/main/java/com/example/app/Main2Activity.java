@@ -5,9 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 
-import com.cat.sutils.wheel.OnSelectedChangListener;
-import com.cat.sutils.wheel.WheelDataItem;
-import com.cat.sutils.wheel.WheelView;
+import com.cat.sutils.wheel.core.WheelDataItem;
+import com.cat.sutils.wheel.core.WheelView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +15,7 @@ import java.util.Random;
 public class Main2Activity extends AppCompatActivity {
 
 
-    private com.cat.sutils.wheel.WheelView rv;
+    private WheelView rv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

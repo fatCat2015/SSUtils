@@ -1,4 +1,4 @@
-package com.cat.sutils.wheel;
+package com.cat.sutils.wheel.core;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -13,7 +13,7 @@ import com.cat.sutils.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WheelAdapter extends RecyclerView.Adapter<WheelAdapter.WheelViewHolder> {
+class WheelAdapter extends RecyclerView.Adapter<WheelAdapter.WheelViewHolder> {
 
     private List<WheelDataItem> mData;
 

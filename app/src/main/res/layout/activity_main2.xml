@@ -7,14 +7,14 @@
     tools:context=".Main2Activity">
 
 
-    <com.cat.sutils.wheel.WheelView
+    <com.cat.sutils.wheel.core.WheelView
         android:id="@+id/rv"
         android:background="#fff"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="50dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    </com.cat.sutils.wheel.WheelView>
+    </com.cat.sutils.wheel.core.WheelView>
 
 
     <Button

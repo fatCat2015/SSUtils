@@ -1,16 +1,14 @@
-package com.cat.sutils.wheel;
+package com.cat.sutils.wheel.core;
 
 import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.cat.sutils.R;
 
-
-public class WheelLayoutManager extends RecyclerView.LayoutManager {
+class WheelLayoutManager extends RecyclerView.LayoutManager {
 
     private LinearSnapHelper mLinearSnapHelper;
 
@@ -234,6 +232,9 @@ public class WheelLayoutManager extends RecyclerView.LayoutManager {
             position=getItemCount()-1;
         }
         mSelectedPosition=position;
+        if(mOnSelectedChangListener!=null){
+            mOnSelectedChangListener.onSelectedChanged((WheelView) mRecyclerView,mSelectedPosition);
+        }
         requestLayout();
     }
 

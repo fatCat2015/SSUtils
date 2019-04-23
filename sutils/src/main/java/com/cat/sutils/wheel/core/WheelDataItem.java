@@ -1,4 +1,4 @@
-package com.cat.sutils.wheel;
+package com.cat.sutils.wheel.core;
 
 public class WheelDataItem{
 
