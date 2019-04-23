@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.View;
 import android.widget.TextView;
 
 import com.cat.sutils.R;
@@ -57,6 +58,7 @@ public class WheelView<T extends WheelDataItem> extends RecyclerView {
         mWheelLayoutManager.setItemTransformer(mDefaultItemTransformer);
         mArgbEvaluator=new ArgbEvaluator();
         setAdapter(mWheelAdapter=new WheelAdapter(getContext()));
+        setOverScrollMode(View.OVER_SCROLL_NEVER);
     }
 
     private void obtainAttrs(Context context, AttributeSet attrs){
