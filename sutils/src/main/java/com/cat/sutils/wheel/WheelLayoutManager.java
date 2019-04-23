@@ -1,6 +1,5 @@
 package com.cat.sutils.wheel;
 
-import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -25,6 +24,9 @@ public class WheelLayoutManager extends RecyclerView.LayoutManager {
 
     private int mSelectedPosition;
 
+    private RecyclerView mRecyclerView;
+
+    private OnSelectedChangListener mOnSelectedChangListener;
 
 
     public WheelLayoutManager(int visibleItemCount) {
@@ -37,6 +39,7 @@ public class WheelLayoutManager extends RecyclerView.LayoutManager {
         mLinearSnapHelper=new LinearSnapHelper();
         mLinearSnapHelper.attachToRecyclerView(view);
         mItemHeight= (int) view.getContext().getResources().getDimension(R.dimen.wheel_view_item_height);
+        this.mRecyclerView=view;
     }
 
 
@@ -47,13 +50,22 @@ public class WheelLayoutManager extends RecyclerView.LayoutManager {
     }
 
 
+    public void setOnSelectedChangListener(OnSelectedChangListener onSelectedChangListener) {
+        this.mOnSelectedChangListener = onSelectedChangListener;
+    }
+
+    public int getSelectedPosition() {
+        return mSelectedPosition;
+    }
+
     @Override
     public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
-        reset(recycler);
+        detachAndScrapAttachedViews(recycler);
         if(mVisibleItemCount>=3){
-            int top=mVisibleItemCount/2*mItemHeight+getPaddingTop();
+            int startPosition=calculateStartPosition();
+            int top=calculateStartTop(startPosition);
             int itemCount=getItemCount();
-            for (int i = 0; i < itemCount ; i++) {
+            for (int i = startPosition; i < itemCount ; i++) {
                 if(top>=getHeight()-getPaddingTop()){
                     break;
                 }
@@ -64,11 +76,26 @@ public class WheelLayoutManager extends RecyclerView.LayoutManager {
     }
 
 
-    private void reset(RecyclerView.Recycler recycler){
-        detachAndScrapAttachedViews(recycler);
-        mSelectedPosition=0;
-        mTotalOffsetY=0;
+    private int calculateStartPosition(){
+        int startPosition=0;
+        int centerPosition=mSelectedPosition;
+        int offset=mVisibleItemCount/2+1;
+        for (int i = 0; i <offset ; i++) {
+            startPosition=centerPosition--;
+            if(centerPosition<0){
+                break;
+            }
+        }
+        return startPosition;
     }
+
+    private int calculateStartTop(int startPosition){
+        int top=getPaddingTop()+(mVisibleItemCount/2-(mSelectedPosition-startPosition))*mItemHeight;;
+        mTotalOffsetY=mSelectedPosition*mItemHeight;
+        return top;
+    }
+
+
 
     private void fillView(RecyclerView.Recycler recycler,int position,  int index,int left, int top, int right, int bottom){
         View child=recycler.getViewForPosition(position);
@@ -104,7 +131,9 @@ public class WheelLayoutManager extends RecyclerView.LayoutManager {
             int selectedPosition=getPosition(mLinearSnapHelper.findSnapView(this));
             if(mSelectedPosition!=selectedPosition){
                 mSelectedPosition=selectedPosition;
-                //选择发生了变化
+                if(mOnSelectedChangListener!=null){
+                    mOnSelectedChangListener.onSelectedChanged((WheelView) mRecyclerView,mSelectedPosition);
+                }
             }
         }
     }
@@ -193,11 +222,28 @@ public class WheelLayoutManager extends RecyclerView.LayoutManager {
         return (getDecoratedTop(childView)-topOfCenterView*1.0F)/mItemHeight;
     }
 
-
+    @Override
+    public void scrollToPosition(int position) {
+        if(position==mSelectedPosition){
+            return;
+        }
+        if(position<0){
+            position=0;
+        }
+        if (position>=getItemCount()) {
+            position=getItemCount()-1;
+        }
+        mSelectedPosition=position;
+        requestLayout();
+    }
 
 
     public void setItemTransformer(ItemTransformer itemTransformer) {
         this.mItemTransformer = itemTransformer;
+    }
+
+    public void setSelectedPosition(int selectedPosition) {
+        this.mSelectedPosition=selectedPosition;
     }
 
 

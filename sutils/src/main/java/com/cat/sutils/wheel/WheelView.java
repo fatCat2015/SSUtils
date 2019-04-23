@@ -19,7 +19,7 @@ import com.cat.sutils.R;
 
 import java.util.List;
 
-public class WheelView<T extends WheelDataItem> extends RecyclerView {
+public class WheelView extends RecyclerView {
 
     private int mStartColor;
     private int mEndColor;
@@ -76,8 +76,47 @@ public class WheelView<T extends WheelDataItem> extends RecyclerView {
         typedArray.recycle();
     }
 
-    public void setData(List<T> items){
+
+    /**
+     * 设置显示的数据
+     * @param items
+     * @param selectedPosition  默认选中位置
+     * @param <T>
+     */
+    public <T extends WheelDataItem> void setData(List<T> items,int selectedPosition){
+        mWheelLayoutManager.setSelectedPosition(selectedPosition);
         mWheelAdapter.update(items);
+    }
+
+    public <T extends WheelDataItem> void setData(List<T> items){
+        mWheelLayoutManager.setSelectedPosition(0);
+        mWheelAdapter.update(items);
+    }
+
+
+    /**
+     * 设置选中的位置 无过渡动画
+     * @param position
+     */
+    public void setPosition(int position){
+        scrollToPosition(position);
+    }
+
+    /**
+     * 获取选中的item
+     * @param <T>
+     * @return
+     */
+    public <T extends WheelDataItem> T getSelectedItem(){
+        return (T) mWheelAdapter.getItem(mWheelLayoutManager.getSelectedPosition());
+    }
+
+    /**
+     * 选中改变监听
+     * @param onSelectedChangListener
+     */
+    public void setOnSelectedChangListener(OnSelectedChangListener onSelectedChangListener){
+        mWheelLayoutManager.setOnSelectedChangListener(onSelectedChangListener);
     }
 
     @Override
