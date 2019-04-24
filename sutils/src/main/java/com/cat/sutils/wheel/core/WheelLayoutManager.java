@@ -1,12 +1,24 @@
 package com.cat.sutils.wheel.core;
 
+import android.animation.ValueAnimator;
+import android.graphics.PointF;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.LinearInterpolator;
+import android.widget.Scroller;
 import android.widget.TextView;
 
 import com.cat.sutils.R;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 class WheelLayoutManager extends RecyclerView.LayoutManager {
 
@@ -39,7 +51,6 @@ class WheelLayoutManager extends RecyclerView.LayoutManager {
         mItemHeight= (int) view.getContext().getResources().getDimension(R.dimen.wheel_view_item_height);
         this.mRecyclerView=view;
     }
-
 
 
     @Override
@@ -138,7 +149,7 @@ class WheelLayoutManager extends RecyclerView.LayoutManager {
 
 
     private void fillViews(int dy, RecyclerView.Recycler recycler) {
-        if(getChildCount()==0){
+        if(getChildCount()==0){  //由于是先回收再填充view 当dy滑动距离大于一屏幕的时候 item已经全部被回收了 此时getChildCount()==0
             return;
         }
         View topView=getChildAt(0);
@@ -202,6 +213,7 @@ class WheelLayoutManager extends RecyclerView.LayoutManager {
         }else if(mTotalOffsetY+dy>(getItemCount()-1)*mItemHeight){
             dy=(getItemCount()-1)*mItemHeight-mTotalOffsetY;
         }
+
         return dy;
     }
 
@@ -225,18 +237,42 @@ class WheelLayoutManager extends RecyclerView.LayoutManager {
         if(position==mSelectedPosition){
             return;
         }
-        if(position<0){
-            position=0;
-        }
-        if (position>=getItemCount()) {
-            position=getItemCount()-1;
-        }
+        position=revisePosition(position);
         mSelectedPosition=position;
         if(mOnSelectedChangListener!=null){
             mOnSelectedChangListener.onSelectedChanged((WheelView) mRecyclerView,mSelectedPosition);
         }
         requestLayout();
     }
+
+    @Override
+    public void smoothScrollToPosition(RecyclerView recyclerView, RecyclerView.State state, int position) {
+        if(position==mSelectedPosition){
+            return;
+        }
+        position=revisePosition(position);
+        int needScrolledDistance=calculateScrolledDistance(mSelectedPosition,position);
+        recyclerView.smoothScrollBy(0,needScrolledDistance,new AccelerateDecelerateInterpolator());
+    }
+
+
+
+    private int calculateScrolledDistance(int startPotion,int endPosition){
+        return (endPosition-startPotion)*mItemHeight;
+    }
+
+
+
+    private int revisePosition(int position){
+        if(position<0){
+            position=0;
+        }
+        if (position>=getItemCount()) {
+            position=getItemCount()-1;
+        }
+        return position;
+    }
+
 
 
     public void setItemTransformer(ItemTransformer itemTransformer) {

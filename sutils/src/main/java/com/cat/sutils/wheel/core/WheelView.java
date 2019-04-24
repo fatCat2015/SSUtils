@@ -16,7 +16,7 @@ import com.cat.sutils.R;
 
 import java.util.List;
 
-public class WheelView extends RecyclerView {
+public class WheelView extends RecyclerView implements View.OnClickListener {
 
     private int mStartColor;
     private int mEndColor;
@@ -54,7 +54,7 @@ public class WheelView extends RecyclerView {
         setLayoutManager(mWheelLayoutManager=new WheelLayoutManager(mVisibleItemCount));
         mWheelLayoutManager.setItemTransformer(mDefaultItemTransformer);
         mArgbEvaluator=new ArgbEvaluator();
-        setAdapter(mWheelAdapter=new WheelAdapter(getContext()));
+        setAdapter(mWheelAdapter=new WheelAdapter(getContext(),this));
         setOverScrollMode(View.OVER_SCROLL_NEVER);
     }
 
@@ -98,6 +98,14 @@ public class WheelView extends RecyclerView {
     public void setPosition(int position){
         scrollToPosition(position);
     }
+
+
+    @Override
+    public void onClick(View v) {
+         int positionOfClickedItem=mWheelLayoutManager.getPosition(v);
+         smoothScrollToPosition(positionOfClickedItem);
+    }
+
 
     /**
      * 获取选中的item
@@ -155,7 +163,6 @@ public class WheelView extends RecyclerView {
         textView.setTextColor(textColor);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_PX,mTextSize);
     };
-
 
 
 }

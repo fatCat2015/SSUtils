@@ -18,8 +18,12 @@ class WheelAdapter extends RecyclerView.Adapter<WheelAdapter.WheelViewHolder> {
     private List<WheelDataItem> mData;
 
     private Context context;
-    public WheelAdapter(Context context){
+
+    private View.OnClickListener onClickListener;
+
+    public WheelAdapter(Context context,View.OnClickListener onClickListener){
         this.context=context;
+        this.onClickListener=onClickListener;
         this.mData=new ArrayList<>();
     }
 
@@ -38,6 +42,7 @@ class WheelAdapter extends RecyclerView.Adapter<WheelAdapter.WheelViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull WheelViewHolder wheelViewHolder, int i) {
         wheelViewHolder.tvWheel.setText(getItem(i).getName());
+        wheelViewHolder.tvWheel.setOnClickListener(onClickListener);
     }
 
 
