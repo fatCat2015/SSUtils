@@ -11,4 +11,23 @@
         <attr name="centerLineWidth" format="dimension"></attr>
 
     </declare-styleable>
+
+    <declare-styleable name="ShadowLayout">
+        <attr name="sl_shadow_radius" format="dimension"></attr>
+        <attr name="sl_shadow_color" format="color"></attr>
+        <attr name="sl_shadow_dx" format="dimension"></attr>
+        <attr name="sl_shadow_dy" format="dimension"></attr>
+
+        <attr name="sl_corner_radius" format="dimension"></attr>
+
+        <attr name="sl_shadow_side" format="flags">
+            <flag name="left" value="1"></flag>
+            <flag name="top" value="2"></flag>
+            <flag name="right" value="4"></flag>
+            <flag name="bottom" value="5"></flag>
+            <flag name="all" value="15"></flag>
+
+        </attr>
+
+    </declare-styleable>
 </resources>

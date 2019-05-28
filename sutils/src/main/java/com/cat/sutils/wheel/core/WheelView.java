@@ -99,14 +99,6 @@ public class WheelView extends RecyclerView implements View.OnClickListener {
         scrollToPosition(position);
     }
 
-
-    @Override
-    public void onClick(View v) {
-         int positionOfClickedItem=mWheelLayoutManager.getPosition(v);
-         smoothScrollToPosition(positionOfClickedItem);
-    }
-
-
     /**
      * 获取选中的item
      * @param <T>
@@ -122,6 +114,13 @@ public class WheelView extends RecyclerView implements View.OnClickListener {
      */
     public void setOnSelectedChangListener(OnSelectedChangListener onSelectedChangListener){
         mWheelLayoutManager.setOnSelectedChangListener(onSelectedChangListener);
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        int positionOfClickedItem=mWheelLayoutManager.getPosition(v);
+        smoothScrollToPosition(positionOfClickedItem);
     }
 
     @Override
