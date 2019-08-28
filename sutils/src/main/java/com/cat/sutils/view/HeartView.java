@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PointF;
+import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.View;
 

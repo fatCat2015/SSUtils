@@ -3,6 +3,7 @@ package com.cat.sutils;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -21,9 +22,9 @@ public class StatusBarUtils {
     /**
      * 效果: 内容布局向上顶 占用了状态栏
      * @param activity
-     * @param compatViewId 设置该view的高度为状态栏的高度 通常用于布局的第一个view 适用于DrawerLayout的内容布局部分
+     * @param statusBarViewId   设置该view的高度为状态栏的高度 通常用于布局的第一个view (适用于DrawerLayout的内容布局部分,可以使内容和抽屉部分的状态栏颜色不一致)
      */
-    public static void transparentStatusBar(Activity activity,int compatViewId){
+    public static void transparentStatusBar(Activity activity,int statusBarViewId){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -34,16 +35,17 @@ public class StatusBarUtils {
         } else if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.KITKAT) {
             activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
-        if(compatViewId!=0){
-            compatViewHeight(activity,compatViewId);
+        if(statusBarViewId!=0){
+            setViewHeightEqualsStatusBarHeight(activity,statusBarViewId);
         }
 
     }
 
-    private static void compatViewHeight(Activity activity, int compatViewId ) {
-        View view = activity.findViewById(compatViewId);
+    private static void setViewHeightEqualsStatusBarHeight(Activity activity, int statusBarViewId ) {
+        View view = activity.findViewById(statusBarViewId);
         if (view != null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                view.setVisibility(View.VISIBLE);
                 ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
                 layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
                 layoutParams.height = getStatusBarHeight(activity);
@@ -51,7 +53,6 @@ public class StatusBarUtils {
             } else {
                 view.setVisibility(View.GONE);
             }
-
         }
     }
 
@@ -80,19 +81,24 @@ public class StatusBarUtils {
             activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             activity.getWindow().setStatusBarColor(color);
-        } else if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.KITKAT) {
-            activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        } else if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.KITKAT) {  //4.4-5.0
+            activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);       //隐藏手机自带状态栏
             ViewGroup rootView = activity.getWindow().getDecorView().findViewById(android.R.id.content);
-            rootView.setPadding(0, getStatusBarHeight(activity), 0, 0);
+            rootView.setPadding(0, getStatusBarHeight(activity), 0, 0);   //设置paddingTop值为状态栏高度
             ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();
-            View statusBarView = new View(activity);
-            ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                    getStatusBarHeight(activity));
+            View statusBarView = new View(activity);   //创建一个view 添加到布局里面 这个view的高度为手机状态栏高度 背景颜色为给定颜色
+            ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,getStatusBarHeight(activity));
             statusBarView.setBackgroundColor(color);
             decorView.addView(statusBarView, lp);
         }
     }
 
+
+    /**
+     * 设置手机状态栏问题字体样式 白或者黑  仅支持6.0以上
+     * @param activity
+     * @param darkMode
+     */
     public static void statusBarDarkOrLightMode(Activity activity,boolean darkMode){
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
             int current=activity.getWindow().getDecorView().getSystemUiVisibility();

@@ -27,116 +27,27 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private android.support.design.widget.TabLayout tabLayout;
-    private android.support.v4.view.ViewPager viewPager;
 
 
 
-    private int[] images={R.mipmap.icon_1,R.mipmap.icon_2,R.mipmap.icon_3,R.mipmap.icon_4,R.mipmap.icon_5};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-        this.viewPager = (ViewPager) findViewById(R.id.viewPager);
-        this.tabLayout = (TabLayout) findViewById(R.id.tabLayout);
 
 
-        viewPager.setAdapter(new Adapter());
-        tabLayout.setupWithViewPager(viewPager);
-        updateViewStyle(0);
-
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int i, float v, int i1) {
-
-            }
-
-            @Override
-            public void onPageSelected(int i) {
-                updateViewStyle(i);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int i) {
-
-            }
-        });
-
-    }
+        ColorTransition.builder()
+                .startColor(0xffff0000)
+                .endColor(0xff00ff00)
+                .duration(5000)
+                .build()
+                .translate(color -> {
+                    StatusBarUtils.setStatusBarColor(this,color);
+                });
 
 
-
-    private void updateViewStyle(int currentPosition){
-        Bitmap bitmap=BitmapFactory.decodeResource(getResources(),images[currentPosition]);
-        PaletteHelper.generate(bitmap,ContextCompat.getColor(this,R.color.colorPrimary),(color)->{
-            Drawable tabLayoutBackground= tabLayout.getBackground();
-            if(tabLayout.getBackground() instanceof  ColorDrawable){
-                int startColor=((ColorDrawable)tabLayoutBackground).getColor();
-                ColorTransition.builder()
-                        .duration(200)
-                        .startColor(startColor)
-                        .endColor(color)
-                        .build()
-                        .translate((currentColor)->setTabLayoutAndStatusBarBackgroundColor(currentColor));
-            }
-
-
-
-
-        });
-    }
-
-    private void setTabLayoutAndStatusBarBackgroundColor(int color){
-        tabLayout.setBackgroundColor(color);
-        StatusBarUtils.setStatusBarColor(MainActivity.this,color);
-    }
-
-
-
-    private class Adapter extends PagerAdapter{
-
-
-
-
-
-        @Override
-        public int getCount() {
-            return images.length;
-        }
-
-        @Override
-        public boolean isViewFromObject(@NonNull View view, @NonNull Object o) {
-            return view==o;
-        }
-
-        @NonNull
-        @Override
-        public Object instantiateItem(@NonNull ViewGroup container, int position) {
-            ImageView imageView=new ImageView(MainActivity.this);
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            container.addView(imageView,new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT));
-            imageView.setImageResource(images[position]);
-            imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startActivity(new Intent(MainActivity.this,Main2Activity.class));
-                }
-            });
-            return imageView;
-        }
-
-        @Nullable
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return "title:"+(++position);
-        }
-
-        @Override
-        public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-            container.removeView((View) object);
-        }
     }
 
 

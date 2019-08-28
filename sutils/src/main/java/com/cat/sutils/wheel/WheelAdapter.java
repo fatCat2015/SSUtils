@@ -1,4 +1,4 @@
-package com.cat.sutils.wheel.core;
+package com.cat.sutils.wheel;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -13,9 +13,9 @@ import com.cat.sutils.R;
 import java.util.ArrayList;
 import java.util.List;
 
-class WheelAdapter extends RecyclerView.Adapter<WheelAdapter.WheelViewHolder> {
+public class WheelAdapter<T> extends RecyclerView.Adapter<WheelAdapter.WheelViewHolder>  {
 
-    private List<WheelDataItem> mData;
+    private List<T> mData;
 
     private Context context;
 
@@ -27,7 +27,7 @@ class WheelAdapter extends RecyclerView.Adapter<WheelAdapter.WheelViewHolder> {
         this.mData=new ArrayList<>();
     }
 
-    public <T extends WheelDataItem> void  update(List<T> data){
+    public void  update(List<T> data){
         this.mData.clear();
         this.mData.addAll(data);
         notifyDataSetChanged();
@@ -39,14 +39,15 @@ class WheelAdapter extends RecyclerView.Adapter<WheelAdapter.WheelViewHolder> {
         return new WheelViewHolder(LayoutInflater.from(context).inflate(R.layout.wheel_item,viewGroup,false));
     }
 
+
     @Override
-    public void onBindViewHolder(@NonNull WheelViewHolder wheelViewHolder, int i) {
-        wheelViewHolder.tvWheel.setText(getItem(i).getName());
+    public void onBindViewHolder(@NonNull WheelAdapter.WheelViewHolder wheelViewHolder, int i) {
+        wheelViewHolder.tvWheel.setText(getItem(i).toString());
         wheelViewHolder.tvWheel.setOnClickListener(onClickListener);
     }
 
 
-    public WheelDataItem getItem(int position){
+    public T getItem(int position){
         return mData.get(position);
     }
 

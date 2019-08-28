@@ -34,12 +34,9 @@ public class ColorTransition {
             throw new IllegalArgumentException("startColor or endColor needed");
         }
         valueAnimator=createColorTransitionAnimator(startColor,endColor,duration);
-        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                int currentColor= (int) animation.getAnimatedValue();
-                consumer.accept(currentColor);
-            }
+        valueAnimator.addUpdateListener(animation -> {
+            int currentColor= (int) animation.getAnimatedValue();
+            consumer.accept(currentColor);
         });
         valueAnimator.start();
         return this;

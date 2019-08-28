@@ -1,4 +1,4 @@
-package com.cat.sutils.wheel.core;
+package com.cat.sutils.wheel;
 
 import android.animation.ArgbEvaluator;
 import android.content.Context;
@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
+import android.widget.TextView;
 
 import com.cat.sutils.R;
 
@@ -34,23 +35,25 @@ public class WheelView extends RecyclerView implements View.OnClickListener {
 
     public WheelView(@NonNull Context context) {
         super(context);
-        init(context,null);
+        obtainAttrs(context,null);
+        init();
     }
 
     public WheelView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        init(context,attrs);
+        obtainAttrs(context,attrs);
+        init();
     }
 
     public WheelView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        init(context,attrs);
+        obtainAttrs(context,attrs);
+        init();
     }
 
 
 
-    private void init(Context context,AttributeSet attrs){
-        obtainAttrs(context,attrs);
+    private void init(){
         setLayoutManager(mWheelLayoutManager=new WheelLayoutManager(mVisibleItemCount));
         mWheelLayoutManager.setItemTransformer(mDefaultItemTransformer);
         mArgbEvaluator=new ArgbEvaluator();
@@ -80,12 +83,12 @@ public class WheelView extends RecyclerView implements View.OnClickListener {
      * @param selectedPosition  默认选中位置
      * @param <T>
      */
-    public <T extends WheelDataItem> void setData(List<T> items,int selectedPosition){
+    public <T> void setData(List<T> items,int selectedPosition){
         mWheelLayoutManager.setSelectedPosition(selectedPosition);
         mWheelAdapter.update(items);
     }
 
-    public <T extends WheelDataItem> void setData(List<T> items){
+    public <T> void setData(List<T> items){
         mWheelLayoutManager.setSelectedPosition(0);
         mWheelAdapter.update(items);
     }
@@ -104,7 +107,7 @@ public class WheelView extends RecyclerView implements View.OnClickListener {
      * @param <T>
      * @return
      */
-    public <T extends WheelDataItem> T getSelectedItem(){
+    public <T> T getSelectedItem(){
         return (T) mWheelAdapter.getItem(mWheelLayoutManager.getSelectedPosition());
     }
 
@@ -154,7 +157,7 @@ public class WheelView extends RecyclerView implements View.OnClickListener {
         return (int) getContext().getResources().getDimension(R.dimen.wheel_view_item_height);
     }
 
-    private final WheelLayoutManager.ItemTransformer mDefaultItemTransformer = (textView, position) -> {
+    private final ItemTransformer mDefaultItemTransformer = (textView, position) -> {
         float scale= 1- Math.abs(position)*(1-mScaleValue)/(mVisibleItemCount/2);
         textView.setScaleX(scale);
         textView.setScaleY(scale);
@@ -162,6 +165,12 @@ public class WheelView extends RecyclerView implements View.OnClickListener {
         textView.setTextColor(textColor);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_PX,mTextSize);
     };
+
+
+
+    public interface ItemTransformer{
+        void transformItem(TextView childView, float position);
+    }
 
 
 }

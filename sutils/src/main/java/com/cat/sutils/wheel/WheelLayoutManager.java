@@ -1,45 +1,40 @@
-package com.cat.sutils.wheel.core;
+package com.cat.sutils.wheel;
 
-import android.animation.ValueAnimator;
-import android.graphics.PointF;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.LinearInterpolator;
-import android.widget.Scroller;
 import android.widget.TextView;
 
 import com.cat.sutils.R;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 class WheelLayoutManager extends RecyclerView.LayoutManager {
 
     private LinearSnapHelper mLinearSnapHelper;
 
-    private int mVisibleItemCount;
+    int mVisibleItemCount;
 
-    private int mItemHeight;
+    int mItemHeight;
 
     private int mTotalOffsetY;
 
-    private ItemTransformer mItemTransformer;
+    private WheelView.ItemTransformer mItemTransformer;
 
-    private int mSelectedPosition;
+    int mSelectedPosition;
 
     private RecyclerView mRecyclerView;
+
+    private IWheelViewCalculator wheelViewCalculator;
 
     private OnSelectedChangListener mOnSelectedChangListener;
 
 
     public WheelLayoutManager(int visibleItemCount) {
+        if(visibleItemCount<3){
+            throw new IllegalArgumentException("visibleItemCount  has to be greater than or equal to 3");
+        }
+        wheelViewCalculator=new WheelViewCalculator(this);
         this.mVisibleItemCount=visibleItemCount;
     }
 
@@ -70,39 +65,19 @@ class WheelLayoutManager extends RecyclerView.LayoutManager {
     @Override
     public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
         detachAndScrapAttachedViews(recycler);
-        if(mVisibleItemCount>=3){
-            int startPosition=calculateStartPosition();
-            int top=calculateStartTop(startPosition);
-            int itemCount=getItemCount();
-            for (int i = startPosition; i < itemCount ; i++) {
-                if(top>=getHeight()-getPaddingTop()){
-                    break;
-                }
-                fillView(recycler,i,-1,getPaddingLeft(),top,getWidth()-getPaddingRight(),top+=mItemHeight);
-            }
-            transformItems();
-        }
-    }
-
-
-    private int calculateStartPosition(){
-        int startPosition=0;
-        int centerPosition=mSelectedPosition;
-        int offset=mVisibleItemCount/2+1;
-        for (int i = 0; i <offset ; i++) {
-            startPosition=centerPosition--;
-            if(centerPosition<0){
+        mTotalOffsetY=mSelectedPosition*mItemHeight;
+        int startPosition=wheelViewCalculator.calculateStartPosition();
+        int top=wheelViewCalculator.calculateStartTop();
+        int itemCount=getItemCount();
+        for (int i = startPosition; i < itemCount ; i++) {
+            if(top>=getHeight()-getPaddingTop()){
                 break;
             }
+            fillView(recycler,i,-1,getPaddingLeft(),top,getWidth()-getPaddingRight(),top+=mItemHeight);
         }
-        return startPosition;
+        transformItems();
     }
 
-    private int calculateStartTop(int startPosition){
-        int top=getPaddingTop()+(mVisibleItemCount/2-(mSelectedPosition-startPosition))*mItemHeight;;
-        mTotalOffsetY=mSelectedPosition*mItemHeight;
-        return top;
-    }
 
 
 
@@ -213,7 +188,6 @@ class WheelLayoutManager extends RecyclerView.LayoutManager {
         }else if(mTotalOffsetY+dy>(getItemCount()-1)*mItemHeight){
             dy=(getItemCount()-1)*mItemHeight-mTotalOffsetY;
         }
-
         return dy;
     }
 
@@ -222,22 +196,18 @@ class WheelLayoutManager extends RecyclerView.LayoutManager {
         if(mItemTransformer!=null){
             for (int i = 0; i < getChildCount(); i++) {
                 View childView=getChildAt(i);
-                mItemTransformer.transformItem((TextView) childView,calculatePosition(childView));
+                mItemTransformer.transformItem((TextView) childView,wheelViewCalculator.calculateChildViewPosition(childView));
             }
         }
     }
 
-    private float calculatePosition(View childView){
-        int topOfCenterView=getPaddingTop()+mVisibleItemCount/2*mItemHeight;
-        return (getDecoratedTop(childView)-topOfCenterView*1.0F)/mItemHeight;
-    }
 
     @Override
     public void scrollToPosition(int position) {
         if(position==mSelectedPosition){
             return;
         }
-        position=revisePosition(position);
+        position=wheelViewCalculator.revisePosition(position);
         mSelectedPosition=position;
         if(mOnSelectedChangListener!=null){
             mOnSelectedChangListener.onSelectedChanged((WheelView) mRecyclerView,mSelectedPosition);
@@ -250,32 +220,14 @@ class WheelLayoutManager extends RecyclerView.LayoutManager {
         if(position==mSelectedPosition){
             return;
         }
-        position=revisePosition(position);
-        int needScrolledDistance=calculateScrolledDistance(mSelectedPosition,position);
+        position=wheelViewCalculator.revisePosition(position);
+        int needScrolledDistance=wheelViewCalculator.calculateScrolledDistance(mSelectedPosition,position);
         recyclerView.smoothScrollBy(0,needScrolledDistance,new AccelerateDecelerateInterpolator());
     }
 
 
 
-    private int calculateScrolledDistance(int startPotion,int endPosition){
-        return (endPosition-startPotion)*mItemHeight;
-    }
-
-
-
-    private int revisePosition(int position){
-        if(position<0){
-            position=0;
-        }
-        if (position>=getItemCount()) {
-            position=getItemCount()-1;
-        }
-        return position;
-    }
-
-
-
-    public void setItemTransformer(ItemTransformer itemTransformer) {
+    public void setItemTransformer(WheelView.ItemTransformer itemTransformer) {
         this.mItemTransformer = itemTransformer;
     }
 
@@ -284,9 +236,6 @@ class WheelLayoutManager extends RecyclerView.LayoutManager {
     }
 
 
-    public interface ItemTransformer{
-        void transformItem(TextView childView, float position);
-    }
 
 
 
