@@ -37,4 +37,10 @@
 
     </declare-styleable>
 
+    <declare-styleable name="HeartView">
+        <attr name="solid_color" format="reference|color"></attr>
+        <attr name="shadow_color" format="reference|color"></attr>
+        <attr name="shadow_radius" format="reference|dimension"></attr>
+    </declare-styleable>
+
 </resources>

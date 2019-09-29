@@ -1,5 +1,6 @@
 package com.cat.sutils;
 
+import android.content.Context;
 import android.graphics.PointF;
 import android.support.annotation.IntRange;
 
@@ -39,6 +40,10 @@ public class BezierCurveUtils {
         return pointList;
 
     }
+    
+    
+    
+    
 
     /**
      * 计算坐标 [贝塞尔曲线的核心关键]
@@ -99,4 +104,37 @@ public class BezierCurveUtils {
         }
 
     }
+
+    /**
+     * 一张画布宽高为258dp 以画布的中心点作为坐标原点 通过尝试得到12个点的坐标
+     * 被x,y轴分为四部分 每部分是4个点
+     * 以这四个点作为3阶贝塞尔曲线的控制点
+     * 可以画出一条贝塞尔曲线,4个贝塞尔曲线组成一个封闭的心形
+     * @param context
+     * @param targetWidth 实际的画布宽度
+     * @return 12个点的坐标
+     */
+    public static List<PointF> getBezierHearPoints(Context context,int targetWidth){
+        List<PointF> heartPointList = new ArrayList<>();
+        heartPointList.add(new PointF(0, DisplayUtils.dp2px(context,-38)));
+        heartPointList.add(new PointF(DisplayUtils.dp2px(context,50), DisplayUtils.dp2px(context,-103)));
+        heartPointList.add(new PointF(DisplayUtils.dp2px(context,112), DisplayUtils.dp2px(context,-61)));
+        heartPointList.add(new PointF(DisplayUtils.dp2px(context,112), DisplayUtils.dp2px(context,-12)));
+        heartPointList.add(new PointF(DisplayUtils.dp2px(context,112), DisplayUtils.dp2px(context,37)));
+        heartPointList.add(new PointF(DisplayUtils.dp2px(context,51), DisplayUtils.dp2px(context,90)));
+        heartPointList.add(new PointF(0, DisplayUtils.dp2px(context,129)));
+        heartPointList.add(new PointF(DisplayUtils.dp2px(context,-51), DisplayUtils.dp2px(context,90)));
+        heartPointList.add(new PointF(DisplayUtils.dp2px(context,-112), DisplayUtils.dp2px(context,37)));
+        heartPointList.add(new PointF(DisplayUtils.dp2px(context,-112), DisplayUtils.dp2px(context,-12)));
+        heartPointList.add(new PointF(DisplayUtils.dp2px(context,-112), DisplayUtils.dp2px(context,-61)));
+        heartPointList.add(new PointF(DisplayUtils.dp2px(context,-50), DisplayUtils.dp2px(context,-103)));
+
+        for (PointF pointF:heartPointList
+        ) {
+            pointF.x=pointF.x*targetWidth*1.0F/DisplayUtils.dp2px(context,258);
+            pointF.y=pointF.y*targetWidth*1.0F/DisplayUtils.dp2px(context,258);
+        }
+        return heartPointList;
+    }
+    
 }
