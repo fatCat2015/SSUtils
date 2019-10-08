@@ -66,7 +66,7 @@ public class PermissionCheckResult implements IPermissionCheckResult {
     private void showAlertDialog(Context context,List<String> deniedPermissionsWithAskNeverAgain){
         AlertDialog alertDialog=new AlertDialog.Builder(context)
                 .setTitle("权限拒绝")
-                .setMessage(String.format("%s权限被永久拒绝,功能无法使用!", getDeniedPermissionsDescription(deniedPermissionsWithAskNeverAgain)))
+                .setMessage(String.format("%s权限被永久拒绝,功能无法使用!", getPermissionDescription(deniedPermissionsWithAskNeverAgain)))
                 .setPositiveButton("设置权限", (dialog, which) -> {
                     toPermissionsSetting(context);
                     ReflectUtils.executeMethodWithAnnotation(joinPoint.getTarget(), OnPermissionSettings.class);
@@ -80,7 +80,7 @@ public class PermissionCheckResult implements IPermissionCheckResult {
         alertDialog.show();
     }
 
-    private String getDeniedPermissionsDescription(List<String> alwaysDeniedPermissions){
+    private String getPermissionDescription(List<String> alwaysDeniedPermissions){
         StringBuilder stringBuilder=new StringBuilder();
         for (String permission:alwaysDeniedPermissions) {
             String permissionDes=permissionDescriptions.get(permission);
