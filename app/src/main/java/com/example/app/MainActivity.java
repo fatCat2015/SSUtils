@@ -1,5 +1,6 @@
 package com.example.app;
 
+import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -15,10 +16,16 @@ import android.support.v4.util.Consumer;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.cat.aop.annotation.Permission;
+import com.cat.aop.permission.OnPermissionDenied;
+import com.cat.aop.permission.OnPermissionDeniedWithAskNeverAgain;
+import com.cat.aop.permission.OnPermissionGranted;
+import com.cat.aop.permission.OnPermissionSettings;
 import com.cat.sutils.ColorTransition;
 import com.cat.sutils.PaletteHelper;
 import com.cat.sutils.StatusBarUtils;
@@ -38,16 +45,35 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        ColorTransition.builder()
-                .startColor(0xffff0000)
-                .endColor(0xff00ff00)
-                .duration(5000)
-                .build()
-                .translate(color -> {
-                    StatusBarUtils.setStatusBarColor(this,color);
-                });
 
 
+    }
+
+    public void aa(View view){
+        test();
+    }
+
+
+    @Permission({Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.CAMERA})
+    private void test(){
+        Log.i("sck220", "test: ");
+    }
+
+
+
+    @OnPermissionDenied
+    private void b(){
+        Log.i("sck220", "b: ");
+    }
+
+    @OnPermissionDeniedWithAskNeverAgain
+    private void c(){
+        Log.i("sck220", "c: ");
+    }
+
+    @OnPermissionSettings
+    private void d(){
+        Log.i("sck220", "d: ");
     }
 
 

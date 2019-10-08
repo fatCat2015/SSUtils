@@ -1,1 +1,1 @@
-include ':sutils', ':app'
+include ':sutils', ':app', ':aop'

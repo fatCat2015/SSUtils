@@ -65,7 +65,7 @@ public class WheelView extends RecyclerView implements View.OnClickListener {
     private void obtainAttrs(Context context, AttributeSet attrs){
         TypedArray typedArray =context.obtainStyledAttributes(attrs,R.styleable.WheelView);
         mStartColor=typedArray.getColor(R.styleable.WheelView_startColor,0xff333333);
-        mEndColor=typedArray.getColor(R.styleable.WheelView_endColor,0x80333333);
+        mEndColor=typedArray.getColor(R.styleable.WheelView_endColor,0xff999999);
         mVisibleItemCount=typedArray.getInt(R.styleable.WheelView_visibleItemCount,5);
         if (mVisibleItemCount%2==0) {
             mVisibleItemCount+=1;
