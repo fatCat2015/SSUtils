@@ -13,6 +13,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="50dp"
         android:layout_width="match_parent"
+        app:visibleItemCount="7"
         android:layout_height="wrap_content">
     </com.cat.sutils.wheel.WheelView>
 

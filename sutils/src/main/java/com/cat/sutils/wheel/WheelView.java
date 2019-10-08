@@ -23,6 +23,7 @@ public class WheelView extends RecyclerView implements View.OnClickListener {
     private int mEndColor;
     private int mVisibleItemCount;
     private float mScaleValue;
+    private int stepDegree;
     private float mTextSize;
     private float mCenterLineWidth;
     private int mCenterLineColor;
@@ -70,6 +71,7 @@ public class WheelView extends RecyclerView implements View.OnClickListener {
             mVisibleItemCount+=1;
         }
         mScaleValue=typedArray.getFloat(R.styleable.WheelView_scaleValue,0.8F);
+        stepDegree=typedArray.getInt(R.styleable.WheelView_stepDegree,20);
         mTextSize=typedArray.getDimension(R.styleable.WheelView_textSize,getContext().getResources().getDisplayMetrics().density*16);
         mCenterLineColor=typedArray.getColor(R.styleable.WheelView_centerLineColor,0xfff1f1f1);
         mCenterLineWidth=typedArray.getDimension(R.styleable.WheelView_centerLineWidth,getContext().getResources().getDisplayMetrics().density*0.8F);
@@ -158,9 +160,12 @@ public class WheelView extends RecyclerView implements View.OnClickListener {
     }
 
     private final ItemTransformer mDefaultItemTransformer = (textView, position) -> {
+        textView.setRotationX(-position*stepDegree);
         float scale= 1- Math.abs(position)*(1-mScaleValue)/(mVisibleItemCount/2);
         textView.setScaleX(scale);
-        textView.setScaleY(scale);
+        if(stepDegree==0){
+            textView.setScaleY(scale);
+        }
         int textColor=(int)mArgbEvaluator.evaluate(Math.abs(position)/(mVisibleItemCount/2), mStartColor,mEndColor);
         textView.setTextColor(textColor);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_PX,mTextSize);
