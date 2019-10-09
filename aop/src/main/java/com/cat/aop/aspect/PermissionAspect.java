@@ -36,7 +36,7 @@ public class PermissionAspect {
             joinPoint.proceed();
         }else{
             IPermissionCheck permissionCheck=new PermissionCheck();
-            IPermissionCheckResult permissionCheckResult=new PermissionCheckResult(joinPoint);
+            IPermissionCheckResult permissionCheckResult=new PermissionCheckResult(joinPoint,permissionAnnotation.dispatchCheckResult());
             checkPermissions(joinPoint,permissionAnnotation,permissionCheck,permissionCheckResult);
         }
     }
@@ -48,6 +48,13 @@ public class PermissionAspect {
         return annotation;
     }
 
+    /**
+     * pointcut 方法 必须定义在FragmentActivity或者Fragment中 或者方法的参数中有FragmentActivity或者Fragment对象 否则没有办法进行权限的检查 并且方法体得不到执行
+     * @param joinPoint
+     * @param permissionAnnotation
+     * @param permissionCheck
+     * @param permissionCheckResult
+     */
     private void checkPermissions(ProceedingJoinPoint joinPoint,Permission permissionAnnotation,IPermissionCheck permissionCheck,IPermissionCheckResult permissionCheckResult){
         Object target = joinPoint.getTarget();
         if(target instanceof FragmentActivity){

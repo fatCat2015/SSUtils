@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 
+import com.cat.aop.R;
 import com.cat.aop.ReflectUtils;
 
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -20,44 +21,51 @@ import java.util.Map;
 public class PermissionCheckResult implements IPermissionCheckResult {
 
 
-    private static Map<String,String> permissionDescriptions;
+    private static Map<String,Integer> permissionDescriptions;
+
+    private boolean dispatchCheckResult;
 
     static {
         permissionDescriptions=new HashMap<>();
-        permissionDescriptions.put(Manifest.permission.WRITE_EXTERNAL_STORAGE,"存储");
-        permissionDescriptions.put(Manifest.permission.CAMERA,"相机");
-        permissionDescriptions.put(Manifest.permission.VIBRATE,"震动");
-        permissionDescriptions.put(Manifest.permission.WAKE_LOCK,"唤醒");
-        permissionDescriptions.put(Manifest.permission.RECORD_AUDIO,"录音");
-        //TODO 添加更多权限的描述
+        permissionDescriptions.put(Manifest.permission.WRITE_EXTERNAL_STORAGE,R.string.permission_write_external_storage);
+        permissionDescriptions.put(Manifest.permission.CAMERA,R.string.permission_camera);
+        permissionDescriptions.put(Manifest.permission.VIBRATE,R.string.permission_vibrate);
+        permissionDescriptions.put(Manifest.permission.RECORD_AUDIO,R.string.permission_record_audio);
     }
 
     private ProceedingJoinPoint joinPoint;
 
-    public PermissionCheckResult(ProceedingJoinPoint joinPoint){
+    public PermissionCheckResult(ProceedingJoinPoint joinPoint,boolean dispatchCheckResult){
         this.joinPoint=joinPoint;
+        this.dispatchCheckResult=dispatchCheckResult;
     }
 
     @Override
-    public void onAllGranted()  {
+    public void onGranted()  {
         try {
             joinPoint.proceed();
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         }
-        ReflectUtils.executeMethodWithAnnotation(joinPoint.getTarget(),OnPermissionGranted.class);
+        if(dispatchCheckResult){
+            ReflectUtils.executeMethodWithAnnotation(joinPoint.getTarget(),OnPermissionGranted.class);
+        }
     }
 
     @Override
     public void onDenied(List<String> deniedPermissions) {
-        ReflectUtils.executeMethodWithAnnotation(joinPoint.getTarget(),OnPermissionDenied.class);
+        if(dispatchCheckResult){
+            ReflectUtils.executeMethodWithAnnotation(joinPoint.getTarget(),OnPermissionDenied.class);
+        }
     }
 
     @Override
     public void onDeniedWithAskNeverAgain(List<String> deniedPermissions, List<String> deniedPermissionsWithAskNeverAgain) {
         Context context=findContext();
         if(context==null){
-            ReflectUtils.executeMethodWithAnnotation(joinPoint.getTarget(),OnPermissionDeniedWithAskNeverAgain.class);
+            if(dispatchCheckResult){
+                ReflectUtils.executeMethodWithAnnotation(joinPoint.getTarget(), OnPermissionDeniedWithNeverAskAgain.class);
+            }
         }else{
             showAlertDialog(context,deniedPermissionsWithAskNeverAgain);
         }
@@ -65,14 +73,18 @@ public class PermissionCheckResult implements IPermissionCheckResult {
 
     private void showAlertDialog(Context context,List<String> deniedPermissionsWithAskNeverAgain){
         AlertDialog alertDialog=new AlertDialog.Builder(context)
-                .setTitle("权限拒绝")
-                .setMessage(String.format("%s权限被永久拒绝,功能无法使用!", getPermissionDescription(deniedPermissionsWithAskNeverAgain)))
-                .setPositiveButton("设置权限", (dialog, which) -> {
+                .setTitle(R.string.permission_alert_title)
+                .setMessage(String.format(context.getString(R.string.permission_alert_description), getPermissionDescription(context,deniedPermissionsWithAskNeverAgain)))
+                .setPositiveButton(R.string.permission_alert_settings, (dialog, which) -> {
                     toPermissionsSetting(context);
-                    ReflectUtils.executeMethodWithAnnotation(joinPoint.getTarget(), OnPermissionSettings.class);
+                    if(dispatchCheckResult){
+                        ReflectUtils.executeMethodWithAnnotation(joinPoint.getTarget(), OnPermissionSettings.class);
+                    }
                 })
-                .setNegativeButton("取消", (dialog, which) -> {
-                    ReflectUtils.executeMethodWithAnnotation(joinPoint.getTarget(),OnPermissionDeniedWithAskNeverAgain.class);
+                .setNegativeButton(R.string.permission_alert_cancel, (dialog, which) -> {
+                    if(dispatchCheckResult){
+                        ReflectUtils.executeMethodWithAnnotation(joinPoint.getTarget(), OnPermissionDeniedWithNeverAskAgain.class);
+                    }
                 })
                 .create();
         alertDialog.setCancelable(false);
@@ -80,10 +92,10 @@ public class PermissionCheckResult implements IPermissionCheckResult {
         alertDialog.show();
     }
 
-    private String getPermissionDescription(List<String> alwaysDeniedPermissions){
+    private String getPermissionDescription(Context context,List<String> alwaysDeniedPermissions){
         StringBuilder stringBuilder=new StringBuilder();
         for (String permission:alwaysDeniedPermissions) {
-            String permissionDes=permissionDescriptions.get(permission);
+            String permissionDes=context.getString(permissionDescriptions.get(permission));
             if(!TextUtils.isEmpty(permissionDes)){
                 stringBuilder.append(permissionDes);
                 stringBuilder.append(",");

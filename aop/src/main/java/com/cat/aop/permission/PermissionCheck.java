@@ -25,16 +25,16 @@ public class PermissionCheck implements IPermissionCheck {
     private void checkPermissions(RxPermissions rxPermissions,IPermissionCheckResult permissionCheckResult,String...permissions){
 
         List<String> deniedPermissions=new ArrayList<>();
-        List<String> deniedPermissionsWithAskNeverAgain=new ArrayList<>();
+        List<String> deniedPermissionsWithNeverAskAgain=new ArrayList<>();
 
         rxPermissions.requestEach(permissions)
                 .doOnComplete(() -> {
-                    if(deniedPermissions.isEmpty()&&deniedPermissionsWithAskNeverAgain.isEmpty()){
-                        permissionCheckResult.onAllGranted();
-                    }else if(deniedPermissionsWithAskNeverAgain.isEmpty()){
+                    if(deniedPermissions.isEmpty()&&deniedPermissionsWithNeverAskAgain.isEmpty()){
+                        permissionCheckResult.onGranted();
+                    }else if(deniedPermissionsWithNeverAskAgain.isEmpty()){
                         permissionCheckResult.onDenied(deniedPermissions);
                     }else{
-                        permissionCheckResult.onDeniedWithAskNeverAgain(deniedPermissions,deniedPermissionsWithAskNeverAgain);
+                        permissionCheckResult.onDeniedWithAskNeverAgain(deniedPermissions,deniedPermissionsWithNeverAskAgain);
                     }
                 })
                 .subscribe(permission -> {
@@ -43,8 +43,8 @@ public class PermissionCheck implements IPermissionCheck {
                             // Denied permission without ask never again
                             deniedPermissions.add(permission.name);
                         } else {
-                            // Denied permission with ask never again
-                            deniedPermissionsWithAskNeverAgain.add(permission.name);
+                            // Denied permission with never ask again
+                            deniedPermissionsWithNeverAskAgain.add(permission.name);
                         }
                     }
                 });

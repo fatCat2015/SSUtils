@@ -6,7 +6,7 @@ public interface IPermissionCheckResult {
     /**
      * 所有的权限通过
      */
-    void onAllGranted() ;
+    void onGranted() ;
 
     /**
      * 部分权限被拒绝

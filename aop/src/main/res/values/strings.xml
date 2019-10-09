@@ -1,3 +1,14 @@
 <resources>
-    <string name="app_name">aop</string>
+
+
+
+    <string name="permission_write_external_storage">存储</string>
+    <string name="permission_camera">相机</string>
+    <string name="permission_vibrate">震动</string>
+    <string name="permission_record_audio">录音</string>
+
+    <string name="permission_alert_title">权限拒绝</string>
+    <string name="permission_alert_description">%s权限被永久拒绝,功能无法使用!</string>
+    <string name="permission_alert_settings">设置权限</string>
+    <string name="permission_alert_cancel">取消</string>
 </resources>
