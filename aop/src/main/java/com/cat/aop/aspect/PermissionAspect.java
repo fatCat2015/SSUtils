@@ -26,10 +26,10 @@ public class PermissionAspect {
     private static final String POINTCUT_METHOD = "execution(@com.cat.aop.annotation.Permission * *(..))";
 
     @Pointcut(POINTCUT_METHOD)
-    public void methodWithPermissionAnnotated() {
+    public void methodWithPermissionAnnotation() {
     }
 
-    @Around("methodWithPermissionAnnotated()")
+    @Around("methodWithPermissionAnnotation()")
     public void checkPermissions(final ProceedingJoinPoint joinPoint) throws Throwable {
         Permission permissionAnnotation=findPermissionAnnotation(joinPoint);
         if(permissionAnnotation==null||permissionAnnotation.value()==null||permissionAnnotation.value().length==0){

@@ -26,12 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        findViewById(R.id.bt).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.i("sck220", "onClick: ");
-            }
-        });
+        findViewById(R.id.bt).setOnClickListener(v -> Log.i("sck220", "onClick: "));
 
     }
 

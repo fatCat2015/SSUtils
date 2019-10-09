@@ -5,7 +5,7 @@ android {
     compileSdkVersion 28
 
 
-    defaultConfig {
+    defaultConfig {m
         minSdkVersion 15
         targetSdkVersion 28
         versionCode 1
@@ -26,6 +26,12 @@ android {
         targetCompatibility = 1.8
     }
 
+}
+
+//下面的配置不会起作用 必须copy 放在application module中的build.gradle中
+aspectjx {
+//    exclude 'android.support'   //举例:排除所有package路径中包含`android.support`的class文件及库
+    enabled true    //aop开关
 }
 
 dependencies {

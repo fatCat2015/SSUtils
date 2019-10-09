@@ -11,15 +11,14 @@ import org.aspectj.lang.annotation.Pointcut;
 @Aspect
 public class AvoidMultiClickAspect {
 
-    private static final String POINTCUT_METHOD = "execution(* android.view.View.OnClickListener.onClick(..))";
+    private static final String POINTCUT_METHOD = "execution(@com.cat.aop.annotation.AvoidMultiClick * *(..))";
 
     @Pointcut(POINTCUT_METHOD)
-    public void onClickMethod() {
+    public void methodWithAvoidMultiClickAnnotation() {
     }
 
-    @Around("onClickMethod()")
-    public void avoidMultiClick( ProceedingJoinPoint joinPoint) throws Throwable {
-        Log.i("sck220", "avoidMultiClick: "+joinPoint);
-        joinPoint.proceed();
+    @Around("methodWithAvoidMultiClickAnnotation()")
+    public void avoidMultiClick(ProceedingJoinPoint joinPoint) throws Throwable {
+
     }
 }
