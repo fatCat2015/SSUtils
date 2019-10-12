@@ -6,13 +6,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 
+import com.cat.aop.annotation.AvoidMultipleExecutions;
+import com.cat.aop.annotation.NeedLog;
 import com.cat.aop.annotation.Permission;
 import com.cat.aop.permission.OnPermissionDenied;
 import com.cat.aop.permission.OnPermissionDeniedWithNeverAskAgain;
 import com.cat.aop.permission.OnPermissionGranted;
 import com.cat.aop.permission.OnPermissionSettings;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
 
 
@@ -26,13 +28,22 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        findViewById(R.id.bt).setOnClickListener(v -> Log.i("sck220", "onClick: "));
+        findViewById(R.id.bt1).setOnClickListener(this);
+        findViewById(R.id.bt).setOnClickListener(this);
+
+
 
     }
 
-    public void aa(View view){
+
+    @NeedLog
+    @Override
+    public void onClick(View v) {
         test();
     }
+
+
+
 
 
     @Permission(value = {Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.CAMERA},dispatchCheckResult = true)
