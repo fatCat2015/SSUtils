@@ -40,8 +40,9 @@ public class Main2Activity extends AppCompatActivity {
     }
 
     public void a(View view) {
-        String item = rv.getSelectedItem();
-        Log.i("sck220", "a: "+item);
+        App.isLoggedIn=true;
+        setResult(RESULT_OK);
+        finish();
     }
 
 

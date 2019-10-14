@@ -1,4 +1,4 @@
-package com.cat.aop.permission;
+package com.cat.aop.permission.annotation;
 
 
 import java.lang.annotation.ElementType;
@@ -8,5 +8,5 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.METHOD})
-public @interface OnPermissionGranted {
+public @interface OnPermissionDeniedWithNeverAskAgain {
 }

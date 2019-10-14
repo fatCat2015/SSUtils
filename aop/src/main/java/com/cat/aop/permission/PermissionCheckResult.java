@@ -11,6 +11,10 @@ import android.text.TextUtils;
 
 import com.cat.aop.R;
 import com.cat.aop.ReflectUtils;
+import com.cat.aop.permission.annotation.OnPermissionDenied;
+import com.cat.aop.permission.annotation.OnPermissionDeniedWithNeverAskAgain;
+import com.cat.aop.permission.annotation.OnPermissionGranted;
+import com.cat.aop.permission.annotation.OnPermissionSettings;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 
@@ -48,14 +52,14 @@ public class PermissionCheckResult implements IPermissionCheckResult {
             throwable.printStackTrace();
         }
         if(dispatchCheckResult){
-            ReflectUtils.executeMethodWithAnnotation(joinPoint.getTarget(),OnPermissionGranted.class);
+            ReflectUtils.executeMethodWithAnnotation(joinPoint.getTarget(), OnPermissionGranted.class);
         }
     }
 
     @Override
     public void onDenied(List<String> deniedPermissions) {
         if(dispatchCheckResult){
-            ReflectUtils.executeMethodWithAnnotation(joinPoint.getTarget(),OnPermissionDenied.class);
+            ReflectUtils.executeMethodWithAnnotation(joinPoint.getTarget(), OnPermissionDenied.class);
         }
     }
 
