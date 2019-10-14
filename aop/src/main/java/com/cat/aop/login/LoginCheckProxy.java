@@ -3,13 +3,15 @@ package com.cat.aop.login;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 
-public class LoginCheckProxy implements ILoginCheck {
+public class LoginCheckProxy implements ILoginCheck,ILoginSeek {
 
     private volatile static  LoginCheckProxy instance;
 
     private ILoginCheck loginCheck;
+    private Class<? extends Activity> loginPageClz;
 
     private LoginCheckProxy(){
     }
@@ -26,7 +28,13 @@ public class LoginCheckProxy implements ILoginCheck {
     }
 
 
-    public synchronized void initLoginCheck(ILoginCheck loginCheck){
+    /**
+     *
+     * @param loginPageClz  登录页面Class
+     * @param loginCheck    主要用于判断是否登录
+     */
+    public synchronized void initLoginCheck(Class<? extends Activity> loginPageClz,ILoginCheck loginCheck){
+        this.loginPageClz=loginPageClz;
         this.loginCheck=loginCheck;
     }
 
@@ -37,18 +45,18 @@ public class LoginCheckProxy implements ILoginCheck {
 
     @Override
     public void onNotLoggedIn(Activity activity, int requestCode) {
-        loginCheck.onNotLoggedIn(activity,requestCode);
+        activity.startActivityForResult(new Intent(activity,loginPageClz),requestCode);
+        onStartLoginActivity(activity);
     }
 
     @Override
     public void onNotLoggedIn(Fragment fragment, int requestCode) {
-        loginCheck.onNotLoggedIn(fragment,requestCode);
+        fragment.startActivityForResult(new Intent(fragment.getActivity(),loginPageClz),requestCode);
+        onStartLoginActivity(fragment.getActivity());
     }
 
-
-
     @Override
-    public void onLoggedIn() {
-        loginCheck.onLoggedIn();
+    public void onStartLoginActivity(Activity activity) {
+        loginCheck.onStartLoginActivity(activity);
     }
 }

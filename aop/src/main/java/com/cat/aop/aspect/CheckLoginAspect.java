@@ -62,7 +62,6 @@ public class CheckLoginAspect {
         }
         Context context=isActivity?activity:fragment.getActivity();
         if(LoginCheckProxy.getInstance().isLoggedIn(context)){
-            LoginCheckProxy.getInstance().onLoggedIn();
             joinPoint.proceed();
         }else{
             int requestCode=getRequestCode(joinPoint);
