@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         test();
     }
 
-    @CheckLogin(200)
+    @CheckLogin()
     private void test(){
         Log.i("sck220", "test: ");
     }

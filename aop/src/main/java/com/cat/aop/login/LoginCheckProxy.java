@@ -45,13 +45,21 @@ public class LoginCheckProxy implements ILoginCheck,ILoginSeek {
 
     @Override
     public void onNotLoggedIn(Activity activity, int requestCode) {
-        activity.startActivityForResult(new Intent(activity,loginPageClz),requestCode);
+        if(requestCode==0){
+            activity.startActivity(new Intent(activity,loginPageClz));
+        }else{
+            activity.startActivityForResult(new Intent(activity,loginPageClz),requestCode);
+        }
         onStartLoginActivity(activity);
     }
 
     @Override
     public void onNotLoggedIn(Fragment fragment, int requestCode) {
-        fragment.startActivityForResult(new Intent(fragment.getActivity(),loginPageClz),requestCode);
+        if(requestCode==0){
+            fragment.startActivity(new Intent(fragment.getActivity(),loginPageClz));
+        }else{
+            fragment.startActivityForResult(new Intent(fragment.getActivity(),loginPageClz),requestCode);
+        }
         onStartLoginActivity(fragment.getActivity());
     }
 
