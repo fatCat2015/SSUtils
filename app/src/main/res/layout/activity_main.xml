@@ -7,16 +7,127 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/bt1"
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/sv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></Button>
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/ll"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="match_parent">
+            <Button
+                android:text="A"
+                android:onClick="c"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></Button>
+
+            <Button
+                android:text=""
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></Button>
+            <Button
+                android:text=""
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></Button>
+            <Button
+                android:text=""
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></Button>
+            <Button
+                android:text=""
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></Button>
+
+            <Button
+                android:text=""
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></Button>
 
 
-    <Button
-        android:id="@+id/bt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"></Button>
+            <Button
+                android:text=""
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></Button>
+
+
+            <Button
+                android:text=""
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></Button>
+
+            <Button
+                android:text=""
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></Button>
+
+            <Button
+                android:text=""
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></Button>
+            <Button
+                android:text=""
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></Button>
+            <Button
+                android:text=""
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></Button>
+
+            <Button
+                android:text=""
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></Button>
+            <Button
+                android:text=""
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></Button>
+            <Button
+                android:text=""
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></Button>
+            <Button
+                android:text=""
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></Button>   <Button
+            android:text=""
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></Button>
+            <Button
+                android:text=""
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></Button>
+            <Button
+                android:text=""
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></Button>
+            <Button
+                android:text=""
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></Button>
+            <Button
+                android:text="AAAAAAAAAAAAAAAAAAAAAAA"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></Button>
+
+
+
+
+
+
+
+
+
+
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+
+
+
 
 
 

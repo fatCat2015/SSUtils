@@ -2,9 +2,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'android-aspectjx'
 
 android {
+
     compileSdkVersion 28
-
-
 
     defaultConfig {
         applicationId "com.example.app"
@@ -12,21 +11,37 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
+    }
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+    }
 
+
+
+    signingConfigs {
+        release {
+            storeFile file('app.jks')
+            storePassword '123456'
+            keyAlias = 'key0'
+            keyPassword '123456'
+        }
     }
 
     buildTypes {
         release {
             minifyEnabled false
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled false
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    compileOptions {
-        sourceCompatibility = '1.8'
-        targetCompatibility = '1.8'
-    }
+
 
 
 }
