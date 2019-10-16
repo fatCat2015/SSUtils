@@ -32,7 +32,6 @@ public class ViewUtils {
      * @return
      */
     public static Bitmap view2Bitmap(View view) {
-        Toast.makeText(view.getContext(),BuildConfig.DEBUG+" library",Toast.LENGTH_SHORT).show();
         if (view instanceof ScrollView) {
             view=((ScrollView) view).getChildAt(0);
         } else if (view instanceof NestedScrollView) {

@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
 import com.cat.aop.annotation.CheckLogin;
-import com.cat.aop.annotation.NeedLog;
 import com.cat.aop.login.LoginCheckProxy;
 
 import org.aspectj.lang.JoinPoint;
