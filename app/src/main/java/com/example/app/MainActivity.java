@@ -1,5 +1,8 @@
 package com.example.app;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -9,7 +12,10 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.cat.aop.annotation.Async;
+import com.cat.aop.annotation.Permission;
 import com.cat.aop.annotation.Trace;
+import com.cat.aop.login.ILoginCheck;
+import com.cat.aop.login.LoginCheckProxy;
 import com.cat.sutils.ViewUtils;
 
 import java.io.ByteArrayOutputStream;
@@ -24,15 +30,29 @@ public class MainActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        try {
+            LoginCheckProxy.getInstance().initLoginCheck(Main2Activity.class, new ILoginCheck() {
+                @Override
+                public boolean isLoggedIn(Context context) {
+                    return false;
+                }
+
+                @Override
+                public void onStartLoginActivity(Activity activity) {
+
+                }
+            });
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+
     }
 
 
 
-    @Async
+    @Permission({Manifest.permission.WRITE_EXTERNAL_STORAGE})
     public void c(View view){
-
         a(view);
-
     }
 
     @Trace

@@ -17,8 +17,6 @@ public interface ILoginCheck {
      * 启动登录页面之后立即调用 可以用于自定义页面切换动画
      * @param activity
      */
-    default void onStartLoginActivity(Activity activity){
-
-    }
+    void onStartLoginActivity(Activity activity);
 
 }

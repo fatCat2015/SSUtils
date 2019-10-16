@@ -2,6 +2,7 @@ package com.cat.aop.permission;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
@@ -75,22 +76,29 @@ public class PermissionCheckResult implements IPermissionCheckResult {
         }
     }
 
-    private void showAlertDialog(Context context,List<String> deniedPermissionsWithAskNeverAgain){
+    private void showAlertDialog(final Context context,List<String> deniedPermissionsWithAskNeverAgain){
         AlertDialog alertDialog=new AlertDialog.Builder(context)
                 .setTitle(R.string.permission_alert_title)
                 .setMessage(String.format(context.getString(R.string.permission_alert_description), getPermissionDescription(context,deniedPermissionsWithAskNeverAgain)))
-                .setPositiveButton(R.string.permission_alert_settings, (dialog, which) -> {
-                    toPermissionsSetting(context);
-                    if(dispatchCheckResult){
-                        ReflectUtils.executeMethodWithAnnotation(joinPoint.getTarget(), OnPermissionSettings.class);
+                .setPositiveButton(R.string.permission_alert_settings, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        toPermissionsSetting(context);
+                        if(dispatchCheckResult){
+                            ReflectUtils.executeMethodWithAnnotation(joinPoint.getTarget(), OnPermissionSettings.class);
+                        }
                     }
                 })
-                .setNegativeButton(R.string.permission_alert_cancel, (dialog, which) -> {
-                    if(dispatchCheckResult){
-                        ReflectUtils.executeMethodWithAnnotation(joinPoint.getTarget(), OnPermissionDeniedWithNeverAskAgain.class);
+                .setNegativeButton(R.string.permission_alert_cancel, new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if(dispatchCheckResult){
+                            ReflectUtils.executeMethodWithAnnotation(joinPoint.getTarget(), OnPermissionDeniedWithNeverAskAgain.class);
+                        }
                     }
-                })
+                } )
                 .create();
+
         alertDialog.setCancelable(false);
         alertDialog.setCanceledOnTouchOutside(false);
         alertDialog.show();

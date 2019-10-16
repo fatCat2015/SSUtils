@@ -3,10 +3,14 @@ package com.cat.aop.permission;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
+import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
 
 
 public class PermissionCheck implements IPermissionCheck {
@@ -22,29 +26,33 @@ public class PermissionCheck implements IPermissionCheck {
     }
 
 
-    private void checkPermissions(RxPermissions rxPermissions,IPermissionCheckResult permissionCheckResult,String...permissions){
-
-        List<String> deniedPermissions=new ArrayList<>();
-        List<String> deniedPermissionsWithNeverAskAgain=new ArrayList<>();
-
+    private void checkPermissions(RxPermissions rxPermissions,final IPermissionCheckResult permissionCheckResult,String...permissions){
+        final List<String> deniedPermissions=new ArrayList<>();
+        final List<String> deniedPermissionsWithNeverAskAgain=new ArrayList<>();
         rxPermissions.requestEach(permissions)
-                .doOnComplete(() -> {
-                    if(deniedPermissions.isEmpty()&&deniedPermissionsWithNeverAskAgain.isEmpty()){
-                        permissionCheckResult.onGranted();
-                    }else if(deniedPermissionsWithNeverAskAgain.isEmpty()){
-                        permissionCheckResult.onDenied(deniedPermissions);
-                    }else{
-                        permissionCheckResult.onDeniedWithAskNeverAgain(deniedPermissions,deniedPermissionsWithNeverAskAgain);
+                .doOnComplete(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        if(deniedPermissions.isEmpty()&&deniedPermissionsWithNeverAskAgain.isEmpty()){
+                            permissionCheckResult.onGranted();
+                        }else if(deniedPermissionsWithNeverAskAgain.isEmpty()){
+                            permissionCheckResult.onDenied(deniedPermissions);
+                        }else{
+                            permissionCheckResult.onDeniedWithAskNeverAgain(deniedPermissions,deniedPermissionsWithNeverAskAgain);
+                        }
                     }
                 })
-                .subscribe(permission -> {
-                    if (!permission.granted) {
-                        if (permission.shouldShowRequestPermissionRationale) {
-                            // Denied permission without ask never again
-                            deniedPermissions.add(permission.name);
-                        } else {
-                            // Denied permission with never ask again
-                            deniedPermissionsWithNeverAskAgain.add(permission.name);
+                .subscribe(new Consumer<Permission>() {
+                    @Override
+                    public void accept(Permission permission) throws Exception {
+                        if (!permission.granted) {
+                            if (permission.shouldShowRequestPermissionRationale) {
+                                // Denied permission without ask never again
+                                deniedPermissions.add(permission.name);
+                            } else {
+                                // Denied permission with never ask again
+                                deniedPermissionsWithNeverAskAgain.add(permission.name);
+                            }
                         }
                     }
                 });

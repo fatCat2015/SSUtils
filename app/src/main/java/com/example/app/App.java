@@ -21,6 +21,6 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
 
-        LoginCheckProxy.getInstance().initLoginCheck(Main2Activity.class, context -> isLoggedIn);
+
     }
 }

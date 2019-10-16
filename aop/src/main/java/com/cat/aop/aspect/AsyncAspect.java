@@ -34,15 +34,17 @@ public class AsyncAspect {
     }
 
     @Around("methodWithAsyncAnnotation()")
-    public void executeAsynchronously(ProceedingJoinPoint joinPoint) throws Throwable {
-        Observable.create((ObservableOnSubscribe<Void>) emitter -> {
-            try {
-                joinPoint.proceed();
-            } catch (Throwable throwable) {
-                throwable.printStackTrace();
+    public void executeAsynchronously(final ProceedingJoinPoint joinPoint) throws Throwable {
+        Observable.create(new ObservableOnSubscribe<Void>() {
+            @Override
+            public void subscribe(ObservableEmitter<Void> emitter) throws Exception {
+                try {
+                    joinPoint.proceed();
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                }
             }
         }).subscribeOn(Schedulers.io()).subscribe();
-
     }
 
 
