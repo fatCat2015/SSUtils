@@ -1,5 +1,5 @@
 package com.cat.aop.event;
 
 public interface IEventUpload {
-    void uploadEvent(String eventName,Object[] args);
+    void uploadEvent(String eventName,String eventJsonParams);
 }

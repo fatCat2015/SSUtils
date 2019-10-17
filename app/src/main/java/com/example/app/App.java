@@ -9,11 +9,13 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
+import com.cat.aop.event.EventParam;
 import com.cat.aop.event.EventUploadProxy;
 import com.cat.aop.event.IEventUpload;
 import com.cat.aop.login.ILoginCheck;
 import com.cat.aop.login.LoginCheckProxy;
 
+import java.lang.reflect.Method;
 import java.util.Arrays;
 
 public class App extends Application {
@@ -27,28 +29,13 @@ public class App extends Application {
         super.onCreate();
 
 
-        try {
-            LoginCheckProxy.getInstance().initLoginCheck(Main2Activity.class, new ILoginCheck() {
-                @Override
-                public boolean isLoggedIn(Context context) {
-                    return false;
-                }
 
-                @Override
-                public void onStartLoginActivity(Activity activity) {
-
-                }
-            });
-
-            EventUploadProxy.getInstance().initEventUpload(new IEventUpload() {
-                @Override
-                public void uploadEvent(String eventName, Object[] args) {
-                    Log.i("sck220", "uploadEvent: "+eventName+" "+ Arrays.toString(args));
-                }
-            });
-        } catch (Throwable e) {
-            e.printStackTrace();
-        }
+        EventUploadProxy.getInstance().initEventUpload(new IEventUpload() {
+            @Override
+            public void uploadEvent(String eventName, String eventJsonParams) {
+                Log.i("sck220", "uploadEvent: "+eventName+" "+ eventJsonParams);
+            }
+        });
 
     }
 }

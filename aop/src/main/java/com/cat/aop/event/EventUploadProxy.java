@@ -33,8 +33,9 @@ public class EventUploadProxy implements IEventUpload {
         this.eventUpload=eventUpload;
     }
 
+
     @Override
-    public void uploadEvent(String eventName, Object[] args) {
-        eventUpload.uploadEvent(eventName,args);
+    public void uploadEvent(String eventName, String eventJsonParams) {
+        eventUpload.uploadEvent(eventName,eventJsonParams);
     }
 }
