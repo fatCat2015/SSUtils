@@ -21,13 +21,9 @@ import java.util.Arrays;
 public class App extends Application {
 
 
-    public static boolean isLoggedIn=false;
-
-
     @Override
     public void onCreate() {
         super.onCreate();
-
 
 
         EventUploadProxy.getInstance().initEventUpload(new IEventUpload() {
