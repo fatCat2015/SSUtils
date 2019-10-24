@@ -1,8 +1,9 @@
 package com.cat.aop.aspect;
 
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 import com.cat.aop.permission.IPermissionCheck;
 import com.cat.aop.permission.IPermissionCheckResult;

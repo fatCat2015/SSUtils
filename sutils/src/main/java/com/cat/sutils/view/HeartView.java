@@ -7,14 +7,12 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PointF;
-import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.View;
 
 import com.cat.sutils.BezierCurveUtils;
 import com.cat.sutils.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class HeartView extends View {

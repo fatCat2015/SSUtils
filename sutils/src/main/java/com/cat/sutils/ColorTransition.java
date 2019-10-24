@@ -2,7 +2,7 @@ package com.cat.sutils;
 
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
-import android.support.v4.util.Consumer;
+import androidx.core.util.Consumer;
 
 import java.util.Objects;
 

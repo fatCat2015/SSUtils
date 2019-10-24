@@ -1,7 +1,8 @@
 package com.cat.aop.login;
 
 import android.app.Activity;
-import android.support.v4.app.Fragment;
+
+import androidx.fragment.app.Fragment;
 
 public interface ILoginSeek {
     void onNotLoggedIn(Activity activity, int requestCode);

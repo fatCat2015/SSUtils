@@ -1,13 +1,5 @@
 package com.cat.aop.event;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.support.v4.app.Fragment;
-
-import com.cat.aop.login.ILoginCheck;
-import com.cat.aop.login.ILoginSeek;
-
 public class EventUploadProxy implements IEventUpload {
 
     private volatile static EventUploadProxy instance;

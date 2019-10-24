@@ -43,5 +43,18 @@
         <attr name="shadow_color" format="reference|color"></attr>
         <attr name="shadow_radius" format="reference|dimension"></attr>
     </declare-styleable>
+    
+    <declare-styleable name="FloatingViewContainer">
+        <attr name="floating_view_id" format="reference"></attr>
+
+        <attr name="enable_drag_out" format="boolean"></attr>
+
+        <attr name="auto_settle_type" format="flags">
+            <flag name="none" value="0"></flag>
+            <flag name="auto" value="1"></flag>
+            <flag name="inside" value="2"></flag>
+        </attr>
+
+    </declare-styleable>
 
 </resources>

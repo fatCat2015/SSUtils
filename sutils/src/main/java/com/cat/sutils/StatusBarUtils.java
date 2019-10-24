@@ -3,7 +3,6 @@ package com.cat.sutils;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
-import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;

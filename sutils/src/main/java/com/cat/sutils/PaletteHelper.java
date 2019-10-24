@@ -1,11 +1,10 @@
 package com.cat.sutils;
 
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.support.annotation.Nullable;
-import android.support.v4.util.Consumer;
-import android.support.v7.graphics.Palette;
-import android.util.Log;
+
+import androidx.annotation.Nullable;
+import androidx.core.util.Consumer;
+import androidx.palette.graphics.Palette;
 
 import java.util.Objects;
 

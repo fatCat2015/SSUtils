@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
@@ -8,10 +8,50 @@
     tools:context=".MainActivity">
 
 
+    <com.cat.sutils.view.FloatingViewContainer
+        android:id="@+id/fvc"
+        android:layout_width="match_parent"
+        app:floating_view_id="@id/clFloating"
+        android:layout_height="match_parent">
+
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clFloating"
+            android:layout_width="120dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="#f00"
+            android:layout_height="200dp">
+            <Button
+                android:layout_width="match_parent"
+                android:onClick="b"
+                android:layout_height="wrap_content"></Button>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+        <Button
+            android:layout_width="match_parent"
+            android:onClick="a"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_height="wrap_content">
+        </Button>
+
+
+
+
+    </com.cat.sutils.view.FloatingViewContainer>
 
 
 
 
 
 
-</LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

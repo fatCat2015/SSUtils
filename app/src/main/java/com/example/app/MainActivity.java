@@ -1,18 +1,36 @@
 package com.example.app;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
+import androidx.annotation.ArrayRes;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewStub;
+import android.widget.Toast;
+
+import com.cat.aop.annotation.CheckLogin;
 import com.cat.aop.annotation.Event;
-import com.cat.aop.annotation.RunOnMainThread;
+import com.cat.aop.annotation.Permission;
+import com.cat.aop.annotation.Trace;
 import com.cat.aop.event.EventParam;
+import com.cat.aop.event.EventUploadProxy;
+import com.cat.aop.event.IEventUpload;
+import com.cat.aop.login.ILoginCheck;
+import com.cat.aop.login.LoginCheckProxy;
+import com.cat.sutils.view.FloatingViewContainer;
 
 public class MainActivity extends AppCompatActivity  {
 
 
 
-    int a=10;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,26 +38,25 @@ public class MainActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_main);
 
 
-        a("8955",1,3.14);
-
-    }
-
-
-    @Event( "test_upload")
-    private void a(@EventParam("houseId") String a,  @EventParam("houseType") int b ,@EventParam("price") double price ){
-        new Thread(new Runnable() {
+        FloatingViewContainer floatingViewContainer=findViewById(R.id.fvc);
+        floatingViewContainer.setOnFloatingViewClickListener(new View.OnClickListener() {
             @Override
-            public void run() {
-                b();
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "1111", Toast.LENGTH_SHORT).show();
             }
-        }).start();
+        });
+
     }
 
+    public void a(View view){
+        Toast.makeText(this, "a", Toast.LENGTH_SHORT).show();
 
-    @RunOnMainThread
-    private void b(){
-        Log.i("sck220", "b: "+Thread.currentThread().getId());
     }
+
+    public void b(View view){
+        Toast.makeText(this, "b", Toast.LENGTH_SHORT).show();
+    }
+
 
 
 

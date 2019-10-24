@@ -2,7 +2,7 @@ package com.cat.sutils;
 
 import android.content.Context;
 import android.graphics.PointF;
-import android.support.annotation.IntRange;
+import androidx.annotation.IntRange;
 
 import java.util.ArrayList;
 import java.util.List;

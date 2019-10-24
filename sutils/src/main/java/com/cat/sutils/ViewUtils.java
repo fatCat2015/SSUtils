@@ -1,14 +1,12 @@
 package com.cat.sutils;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.support.v4.widget.NestedScrollView;
-import android.view.LayoutInflater;
+import androidx.core.widget.NestedScrollView;
+
 import android.view.View;
 import android.widget.ScrollView;
-import android.widget.Toast;
 
 public class ViewUtils {
 
