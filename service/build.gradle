@@ -7,8 +7,6 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
@@ -30,12 +28,21 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
-    def lifecycle_version = "2.1.0"
-    // ViewModel and LiveData
-    api "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
-    api "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
+    def retrofitVersion="2.6.2"
 
-    def room_version = "2.2.0"
-    api "androidx.room:room-runtime:$room_version"
-    annotationProcessor "androidx.room:room-compiler:$room_version"
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-scalars:$retrofitVersion"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
+
+    def rxJavaVersion="2.1.1"
+
+    implementation "io.reactivex.rxjava2:rxandroid:$rxJavaVersion"
+
+    def stethoVersion="1.5.1"
+
+    implementation "com.facebook.stetho:stetho:$stethoVersion"
+    implementation "com.facebook.stetho:stetho-okhttp3:$stethoVersion"
+
+
 }

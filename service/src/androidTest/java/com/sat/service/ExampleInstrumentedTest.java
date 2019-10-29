@@ -1,4 +1,4 @@
-package com.cat.architecture;
+package com.sat.service;
 
 import android.content.Context;
 
@@ -22,6 +22,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
-        assertEquals("com.cat.architecture.test", appContext.getPackageName());
+        assertEquals("com.sat.service.test", appContext.getPackageName());
     }
 }

@@ -1,4 +1,4 @@
-package com.cat.architecture;
+package com.sat.service;
 
 import org.junit.Test;
 

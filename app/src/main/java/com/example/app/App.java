@@ -3,7 +3,6 @@ package com.example.app;
 import android.app.Application;
 import android.util.Log;
 
-import com.cat.aop.event.EventUploadProxy;
 
 public class App extends Application {
 
@@ -13,7 +12,6 @@ public class App extends Application {
         super.onCreate();
 
 
-        EventUploadProxy.getInstance().initEventUpload((eventName, eventJsonParams) -> Log.i("sck220", "uploadEvent: "+eventName+" "+ eventJsonParams));
 
     }
 }
