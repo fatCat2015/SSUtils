@@ -21,15 +21,6 @@ public class MainActivity extends AppCompatActivity  {
 
         ServiceManager.getInstance().init(this,"http://www.baidu.com",BuildConfig.DEBUG);
 
-        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-            @Override
-            public void uncaughtException(Thread t, Throwable e) {
-                System.exit(0);
-            }
-        });
-
-
-
     }
 
     public void a(View view){
