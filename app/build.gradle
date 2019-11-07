@@ -54,7 +54,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-//    implementation project(':sutils')
+    implementation project(':sutils')
 //    implementation project(':aop')
     implementation project(':service')
 //    implementation 'com.github.fatCat2015:SUtils:1.2.1'

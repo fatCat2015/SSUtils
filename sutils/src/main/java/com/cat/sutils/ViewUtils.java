@@ -30,15 +30,15 @@ public class ViewUtils {
      * @return
      */
     public static Bitmap view2Bitmap(View view) {
-        if (view instanceof ScrollView) {
-            view=((ScrollView) view).getChildAt(0);
-        } else if (view instanceof NestedScrollView) {
-            view=((NestedScrollView) view).getChildAt(0);
-        }
-        Bitmap bmp = Bitmap.createBitmap(view.getWidth(),view.getHeight(),Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bmp);
-        canvas.drawColor(Color.TRANSPARENT);
-        view.draw(canvas);
-        return bmp;
+            if (view instanceof ScrollView) {
+                view=((ScrollView) view).getChildAt(0);
+            } else if (view instanceof NestedScrollView) {
+                view=((NestedScrollView) view).getChildAt(0);
+            }
+            Bitmap bmp = Bitmap.createBitmap(view.getWidth(),view.getHeight(),Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bmp);
+            canvas.drawColor(Color.TRANSPARENT);
+            view.draw(canvas);
+            return bmp;
     }
 }
