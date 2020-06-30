@@ -1,1 +1,2 @@
+include ':guide'
 include ':sutils', ':app', ':aop', ':service'
