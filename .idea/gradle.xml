@@ -12,7 +12,6 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/aop" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/guide" />
             <option value="$PROJECT_DIR$/service" />
             <option value="$PROJECT_DIR$/sutils" />
           </set>
