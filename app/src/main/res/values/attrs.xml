@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="ChildDraggableView">
+        <attr name="draggable_child_id" format="reference"></attr>
+        <attr name="action_when_release" format="enum">
+            <enum name="keepState" value="0"></enum>
+            <enum name="backToOri" value="1"></enum>
+            <enum name="attachToSide" value="2"></enum>
+        </attr>
+    </declare-styleable>
+</resources>

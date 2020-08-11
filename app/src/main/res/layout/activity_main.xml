@@ -7,43 +7,115 @@
     tools:context=".MainActivity">
 
 
-        <TextView
-            android:id="@+id/tv"
-            android:layout_width="wrap_content"
-            android:text="哈哈"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:textSize="16sp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_margin="100dp"
-            android:textColor="#333"
-            android:layout_height="wrap_content">
-        </TextView>
 
-        <TextView
-            android:id="@+id/tv1"
-            android:text="呵呵"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_margin="50dp"
-            android:textColor="#333"
-            android:textSize="16sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-        </TextView>
+        <com.example.app.ChildDraggableView
+            android:layout_width="match_parent"
+            app:draggable_child_id="@+id/tvDemo"
+            app:action_when_release="attachToSide"
+            android:layout_height="match_parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:text="哈哈哈哈哈哈哈哈哈哈哈"
-            app:layout_constraintLeft_toLeftOf="@id/tv"
-            app:layout_constraintRight_toRightOf="@id/tv"
-            app:layout_constraintTop_toBottomOf="@id/tv"
-            android:layout_marginTop="20dp"
-            android:layout_height="wrap_content">
-        </TextView>
+                <androidx.core.widget.NestedScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:orientation="vertical"
+                            android:showDividers="middle"
+                            android:divider="@drawable/a"
+                            android:layout_height="match_parent">
+
+                                <TextView
+                                    android:layout_width="150dp"
+                                    android:background="@android:color/holo_blue_bright"
+                                    app:layout_constraintRight_toRightOf="parent"
+                                    android:layout_height="150dp">
+                                </TextView>
+
+                                <TextView
+                                    android:layout_width="150dp"
+                                    android:background="@android:color/holo_blue_bright"
+                                    app:layout_constraintRight_toRightOf="parent"
+                                    android:layout_height="150dp">
+                                </TextView>
+
+                                <TextView
+                                    android:layout_width="150dp"
+                                    android:background="@android:color/holo_blue_bright"
+                                    app:layout_constraintRight_toRightOf="parent"
+                                    android:layout_height="150dp">
+                                </TextView>
+
+                                <TextView
+                                    android:layout_width="150dp"
+                                    android:background="@android:color/holo_blue_bright"
+                                    app:layout_constraintRight_toRightOf="parent"
+                                    android:layout_height="150dp">
+                                </TextView>
+
+                                <TextView
+                                    android:layout_width="150dp"
+                                    android:background="@android:color/holo_blue_bright"
+                                    app:layout_constraintRight_toRightOf="parent"
+                                    android:layout_height="150dp">
+                                </TextView>
+
+
+
+                                <TextView
+                                    android:layout_width="150dp"
+                                    android:background="@android:color/holo_blue_bright"
+                                    app:layout_constraintRight_toRightOf="parent"
+                                    android:layout_height="150dp">
+                                </TextView>
+
+
+                                <TextView
+                                    android:layout_width="150dp"
+                                    android:background="@android:color/holo_blue_bright"
+                                    app:layout_constraintRight_toRightOf="parent"
+                                    android:layout_height="150dp">
+                                </TextView>
+                                <TextView
+                                    android:layout_width="150dp"
+                                    android:background="@android:color/holo_blue_bright"
+                                    app:layout_constraintRight_toRightOf="parent"
+                                    android:layout_height="150dp">
+                                </TextView>
+                                <TextView
+                                    android:layout_width="150dp"
+                                    android:background="@android:color/holo_blue_bright"
+                                    app:layout_constraintRight_toRightOf="parent"
+                                    android:layout_height="150dp">
+                                </TextView>
+                                <TextView
+                                    android:layout_width="150dp"
+                                    android:background="@android:color/holo_blue_bright"
+                                    app:layout_constraintRight_toRightOf="parent"
+                                    android:layout_height="150dp">
+                                </TextView>
+
+                        </LinearLayout>
+                </androidx.core.widget.NestedScrollView>
+
+                <TextView
+                    android:id="@+id/tvDemo"
+                    android:layout_width="150dp"
+                    android:background="@android:color/darker_gray"
+                    android:layout_height="150dp">
+                </TextView>
+
+                <TextView
+                    android:layout_width="150dp"
+                    android:background="@android:color/holo_blue_bright"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:layout_height="150dp">
+                </TextView>
+
+
+        </com.example.app.ChildDraggableView>
+
+
 
 
 
