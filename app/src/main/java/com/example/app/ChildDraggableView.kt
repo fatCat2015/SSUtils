@@ -56,11 +56,11 @@ class ChildDraggableView : ConstraintLayout {
         }
 
         override fun clampViewPositionHorizontal(child: View, left: Int, dx: Int): Int {
-            return left
+            return Math.max(0,Math.min(left,width-child.width))
         }
 
         override fun clampViewPositionVertical(child: View, top: Int, dy: Int): Int {
-            return top
+            return Math.max(0,Math.min(top,height-child.height))
         }
 
         override fun getViewHorizontalDragRange(child: View): Int {
