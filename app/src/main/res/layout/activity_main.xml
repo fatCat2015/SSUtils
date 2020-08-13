@@ -14,89 +14,6 @@
             app:action_when_release="attachToSide"
             android:layout_height="match_parent">
 
-                <androidx.core.widget.NestedScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:orientation="vertical"
-                            android:showDividers="middle"
-                            android:divider="@drawable/a"
-                            android:layout_height="match_parent">
-
-                                <TextView
-                                    android:layout_width="150dp"
-                                    android:background="@android:color/holo_blue_bright"
-                                    app:layout_constraintRight_toRightOf="parent"
-                                    android:layout_height="150dp">
-                                </TextView>
-
-                                <TextView
-                                    android:layout_width="150dp"
-                                    android:background="@android:color/holo_blue_bright"
-                                    app:layout_constraintRight_toRightOf="parent"
-                                    android:layout_height="150dp">
-                                </TextView>
-
-                                <TextView
-                                    android:layout_width="150dp"
-                                    android:background="@android:color/holo_blue_bright"
-                                    app:layout_constraintRight_toRightOf="parent"
-                                    android:layout_height="150dp">
-                                </TextView>
-
-                                <TextView
-                                    android:layout_width="150dp"
-                                    android:background="@android:color/holo_blue_bright"
-                                    app:layout_constraintRight_toRightOf="parent"
-                                    android:layout_height="150dp">
-                                </TextView>
-
-                                <TextView
-                                    android:layout_width="150dp"
-                                    android:background="@android:color/holo_blue_bright"
-                                    app:layout_constraintRight_toRightOf="parent"
-                                    android:layout_height="150dp">
-                                </TextView>
-
-
-
-                                <TextView
-                                    android:layout_width="150dp"
-                                    android:background="@android:color/holo_blue_bright"
-                                    app:layout_constraintRight_toRightOf="parent"
-                                    android:layout_height="150dp">
-                                </TextView>
-
-
-                                <TextView
-                                    android:layout_width="150dp"
-                                    android:background="@android:color/holo_blue_bright"
-                                    app:layout_constraintRight_toRightOf="parent"
-                                    android:layout_height="150dp">
-                                </TextView>
-                                <TextView
-                                    android:layout_width="150dp"
-                                    android:background="@android:color/holo_blue_bright"
-                                    app:layout_constraintRight_toRightOf="parent"
-                                    android:layout_height="150dp">
-                                </TextView>
-                                <TextView
-                                    android:layout_width="150dp"
-                                    android:background="@android:color/holo_blue_bright"
-                                    app:layout_constraintRight_toRightOf="parent"
-                                    android:layout_height="150dp">
-                                </TextView>
-                                <TextView
-                                    android:layout_width="150dp"
-                                    android:background="@android:color/holo_blue_bright"
-                                    app:layout_constraintRight_toRightOf="parent"
-                                    android:layout_height="150dp">
-                                </TextView>
-
-                        </LinearLayout>
-                </androidx.core.widget.NestedScrollView>
 
                 <TextView
                     android:id="@+id/tvDemo"
@@ -105,12 +22,6 @@
                     android:layout_height="150dp">
                 </TextView>
 
-                <TextView
-                    android:layout_width="150dp"
-                    android:background="@android:color/holo_blue_bright"
-                    app:layout_constraintRight_toRightOf="parent"
-                    android:layout_height="150dp">
-                </TextView>
 
 
         </com.example.app.ChildDraggableView>
