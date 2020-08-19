@@ -20,4 +20,5 @@
             <enum name="bottom" value="3"></enum>
         </attr>
     </declare-styleable>
+
 </resources>
