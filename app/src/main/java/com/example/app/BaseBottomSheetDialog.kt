@@ -1,13 +1,10 @@
 package com.example.app
 
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 abstract class BaseBottomSheetDialog:BottomSheetDialogFragment() {
@@ -21,6 +18,7 @@ abstract class BaseBottomSheetDialog:BottomSheetDialogFragment() {
         super.onActivityCreated(savedInstanceState)
         setHeightFullScreen()
         setBgTransparent()
+        setDialogStyle()
         setData(arguments)
         setListeners()
     }
@@ -38,10 +36,22 @@ abstract class BaseBottomSheetDialog:BottomSheetDialogFragment() {
         container?.setBackgroundColor(Color.TRANSPARENT)
     }
 
+    private fun setDialogStyle(){
+        if(windowAnimations()!=0){
+            val lp=dialog?.window?.attributes
+            lp?.windowAnimations=windowAnimations()
+            dialog?.window?.attributes=lp
+        }
+    }
+
     abstract fun layoutResId():Int
 
     abstract fun setData(arguments:Bundle?)
 
     abstract fun setListeners()
+
+    open fun windowAnimations():Int {
+        return 0
+    }
 
 }
