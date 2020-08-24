@@ -2,16 +2,18 @@ package com.example.app
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Rect
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.NestedScrollingParent
 import androidx.customview.widget.ViewDragHelper
 
 class DrawerLayout:ConstraintLayout {
 
-    private val TAG="SlideBackLayout"
 
     private val flingVelValue=1000
 
@@ -282,8 +284,73 @@ class DrawerLayout:ConstraintLayout {
 
 
     override fun onInterceptTouchEvent(ev: MotionEvent?): Boolean {
-        return ev?.let { viewDragHelper.shouldInterceptTouchEvent(it) }?:super.onInterceptTouchEvent(ev)
+        return ev?.let {
+            if(shouldDispatchTouchEvent(it)){
+                false
+            }else{
+                viewDragHelper.shouldInterceptTouchEvent(it)
+            }
+        }?:super.onInterceptTouchEvent(ev)
     }
+
+    private fun shouldDispatchTouchEvent(ev: MotionEvent):Boolean{
+        return drawerView?.let {
+            var scrollableView=findScrollableView(it,ev)
+//            Log.i("sck220", "shouldDispatchTouchEvent: ${scrollableView}")
+            scrollableView!=null
+        }?:false
+    }
+
+
+
+
+    private fun findScrollableView(viewGroup: View,ev: MotionEvent):View?{
+        if(viewScrollable(viewGroup)&&touchedOnView(viewGroup,ev)){
+            return viewGroup
+        }
+        if(viewGroup !is ViewGroup){
+            return null
+        }
+        val childCount=viewGroup.childCount
+        for(index in childCount-1 downTo 0){
+            val childView=viewGroup.getChildAt(index)
+            var scrollableView=findScrollableView(childView,ev)
+            if(scrollableView!=null){
+                return scrollableView
+            }
+        }
+        return null
+    }
+
+    private fun viewScrollable(view:View):Boolean{
+        return when(drawDirection){
+            DRAWER_DIRECTION_LEFT ->{
+                view.canScrollHorizontally(-1)
+            }
+            DRAWER_DIRECTION_TOP ->{
+                view.canScrollVertically(-1)
+            }
+            DRAWER_DIRECTION_RIGHT ->{
+                view.canScrollHorizontally(1)
+            }
+            DRAWER_DIRECTION_BOTTOM ->{
+                view.canScrollVertically(1)
+            }
+            else ->{
+                false
+            }
+        }
+    }
+
+    private fun touchedOnView(view: View,ev:MotionEvent):Boolean{
+        val x=ev.rawX.toInt()
+        val y=ev.rawY.toInt()
+        val location= IntArray(2)
+        view.getLocationOnScreen(location)
+        val viewRect=Rect(location[0],location[1],location[0]+view.width,location[1]+view.height)
+        return viewRect.contains(x,y)
+    }
+
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         if (event != null) {
@@ -291,6 +358,7 @@ class DrawerLayout:ConstraintLayout {
         }
         return true;
     }
+
 
     companion object{
         const val DRAWER_DIRECTION_LEFT=0
