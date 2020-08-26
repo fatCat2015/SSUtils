@@ -21,4 +21,21 @@
         </attr>
     </declare-styleable>
 
+
+    <declare-styleable name="CodeEditText">
+        <attr name="code_text_background" format="reference"></attr>
+
+        <attr name="code_length" format="integer"></attr>
+
+        <attr name="code_interval" format="dimension"></attr>
+
+        <attr name="code_text_size" format="dimension"></attr>
+        <attr name="code_text_color" format="color"></attr>
+        <attr name="code_text_bold" format="boolean"></attr>
+
+        <attr name="code_cursor_color" format="color"></attr>
+        <attr name="code_cursor_width" format="dimension"></attr>
+        <attr name="code_cursor_height" format="dimension"></attr>
+    </declare-styleable>
+
 </resources>
