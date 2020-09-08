@@ -11,9 +11,9 @@ import java.lang.IllegalArgumentException
 interface ItemDelegate<T> {
 
     /**
-     * 布局资源id
+     * 布局itemView
      */
-    fun itemLayoutResId():Int
+    fun createItemView(layoutInflater: LayoutInflater,parent:ViewGroup): ItemView
 
     /**
      * @return true 表示 数据item使用该布局
@@ -66,7 +66,7 @@ internal class ItemDelegateHolder<T>{
 
     fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         val itemDelegate=getItemDelegateByItemViewType(viewType)
-        val itemView=LayoutInflater.from(parent.context).inflate(itemDelegate.itemLayoutResId(),parent,false)
+        val itemView=itemDelegate.createItemView(LayoutInflater.from(parent.context),parent)
         return BaseViewHolder(itemView)
     }
 

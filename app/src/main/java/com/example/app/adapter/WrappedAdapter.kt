@@ -79,10 +79,10 @@ open class WrappedAdapter<T>(data:List<T>?): BaseAdapter<T>(data){
                 super.onCreateViewHolder(parent, viewType)
             }
             viewType<200 -> {
-                BaseViewHolder(headerViews.valueAt(viewType-100))
+                BaseViewHolder(DefaultItemView(headerViews.valueAt(viewType-100)))
             }
             else -> {
-                BaseViewHolder(footerViews.valueAt(viewType-200))
+                BaseViewHolder(DefaultItemView(footerViews.valueAt(viewType-200)))
             }
         }
     }
