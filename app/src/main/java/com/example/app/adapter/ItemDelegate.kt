@@ -3,39 +3,49 @@ package com.example.app.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.collection.SparseArrayCompat
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import java.lang.IllegalArgumentException
 
 /**
  * 每一个ItemDelegate代表一种布局类型
  */
-interface ItemDelegate<T> {
+abstract class ItemDelegate<T,B:ViewDataBinding> {
 
     /**
-     * 布局itemView
+     * 布局itemView resId
      */
-    fun createItemView(layoutInflater: LayoutInflater,parent:ViewGroup): ItemView
+    abstract fun layoutResId():Int
 
     /**
      * @return true 表示 数据item使用该布局
      */
-    fun apply(item:T):Boolean
+    abstract fun apply(item:T):Boolean
 
     /**
      * @return true 表示 该布局可以进行点击
      */
-    fun clickAble():Boolean{
+    open fun clickAble():Boolean{
         return true
     }
 
     /**
      * 布局和数据进行绑定
      */
-    fun bindData(viewHolder: BaseViewHolder, item: T, position:Int)
+    fun _bindData(viewHolder: BaseViewHolder<*>, item: T, position:Int){
+        bindData(viewHolder as  BaseViewHolder<B>,item,position)
+    }
+
+    abstract fun bindData(viewHolder: BaseViewHolder<B>, item: T, position:Int)
 
     /**
      * 布局和数据进行绑定 一般用于局部刷新
      */
-    fun bindData(viewHolder: BaseViewHolder, item: T, position:Int, payloads: MutableList<Any>){
+    fun _bindData(viewHolder: BaseViewHolder<*>, item: T, position:Int, payloads: MutableList<Any>){
+        bindData(viewHolder as  BaseViewHolder<B>,item,position,payloads)
+    }
+
+    open fun bindData(viewHolder: BaseViewHolder<B>, item: T, position:Int,payloads: MutableList<Any>){
 
     }
 }
@@ -46,9 +56,9 @@ internal class ItemDelegateHolder<T>{
     /**
      * key对应的是itemViewType
      */
-    private val itemDelegateMap= SparseArrayCompat<ItemDelegate<T>>()
+    private val itemDelegateMap= SparseArrayCompat<ItemDelegate<T,*>>()
 
-    fun addItemDelegate(itemDelegate: ItemDelegate<T>){
+    fun addItemDelegate(itemDelegate: ItemDelegate<T,*>){
         itemDelegateMap.putIfAbsent(itemDelegateMap.size(),itemDelegate)
     }
 
@@ -64,15 +74,15 @@ internal class ItemDelegateHolder<T>{
         throw IllegalStateException("each item has to specify a item type ")
     }
 
-    fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
+    fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<*> {
         val itemDelegate=getItemDelegateByItemViewType(viewType)
-        val itemView=itemDelegate.createItemView(LayoutInflater.from(parent.context),parent)
-        return BaseViewHolder(itemView)
+        val dataBinding=DataBindingUtil.inflate<ViewDataBinding>(LayoutInflater.from(parent.context),itemDelegate.layoutResId(),parent,false)
+        return BaseViewHolder(dataBinding)
     }
 
-    fun onBindViewHolder(holder: BaseViewHolder, item:T, position:Int, viewType:Int, onItemClickListener: OnItemClickListener<T>?){
+    fun onBindViewHolder(holder: BaseViewHolder<*>, item:T, position:Int, viewType:Int, onItemClickListener: OnItemClickListener<T>?){
         val itemDelegate=getItemDelegateByItemViewType(viewType)
-        itemDelegate.bindData(holder,item,position)
+        itemDelegate._bindData(holder,item,position)
         if(itemDelegate.clickAble()){
             holder.itemView.setOnClickListener {
                 onItemClickListener?.invoke(holder,item,position)
@@ -82,12 +92,12 @@ internal class ItemDelegateHolder<T>{
         }
     }
 
-    fun onBindViewHolder(holder: BaseViewHolder, item:T, position:Int, viewType:Int, payloads: MutableList<Any>){
+    fun onBindViewHolder(holder: BaseViewHolder<*>, item:T, position:Int, viewType:Int, payloads: MutableList<Any>){
         val itemDelegate=getItemDelegateByItemViewType(viewType)
-        itemDelegate.bindData(holder,item,position,payloads)
+        itemDelegate._bindData(holder,item,position,payloads)
     }
 
-    private fun getItemDelegateByItemViewType(itemViewType:Int): ItemDelegate<T> {
+    private fun getItemDelegateByItemViewType(itemViewType:Int): ItemDelegate<T,*> {
         val itemDelegate=itemDelegateMap[itemViewType]
         return itemDelegate?.let { it } ?:throw IllegalArgumentException("illegal itemViewType: $itemViewType")
     }
