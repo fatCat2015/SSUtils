@@ -38,4 +38,15 @@
         <attr name="code_cursor_height" format="dimension"></attr>
     </declare-styleable>
 
+    <declare-styleable name="ShadowViewContainer">
+        <attr name="svc_shadow_radius" format="dimension"></attr>
+        <attr name="svc_shadow_color" format="color"></attr>
+        <attr name="svc_shadow_slide" format="flags">
+            <flag name="start" value="1"></flag>
+            <flag name="top" value="2"></flag>
+            <flag name="end" value="4"></flag>
+            <flag name="bottom" value="8"></flag>
+        </attr>
+    </declare-styleable>
+
 </resources>
